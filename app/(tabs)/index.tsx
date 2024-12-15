@@ -1,53 +1,47 @@
-import { Text, StyleSheet, FlatList } from 'react-native'
-import { useEffect, useState } from 'react'
-import axios from 'axios'
-import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context'
+import HospitalList from '@/components/hospitals/HospitalList'
+import { useSession } from '@/contexts/AuthContext'
+import { isAdmin } from '@/hooks/isAdmin'
+import { useState, useEffect } from 'react'
+import { ScrollView, StyleSheet } from 'react-native'
+import { Title } from 'react-native-paper'
 
-const Tab = () => {
+const index = () => {
   const [hospitals, setHospitals] = useState<Hospital[]>([])
-
   useEffect(() => {
-    axios.get(`${process.env.EXPO_PUBLIC_API_URL}/api/hospitals`)
-         .then(response => {
-          console.log(response.data)
-          setHospitals(response.data)
-         })
-         .catch(e => {
-          console.log(e)
-         })
+    const fetchHospitals = async () => {
+      try {
+        const response = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/api/hospitals`)
+        setHospitals(await response.json())
+      }
+      catch (error) {
+        console.error(error)
+      }
+    }
 
+    fetchHospitals()
   }, [])
 
-  if(hospitals.length === 0) return <Text>No Hospitals found</Text>
-  
-
-  // when home and no session show all hospitals created
-  // when gome and session show all resources created by the user
-
   return (
-    <SafeAreaProvider>
-      <SafeAreaView style={styles.container}>
-        {/* <FlatList
-          data={festivals}
-          renderItem={({item}) => <FestivalItem festival={item} />}
-          keyExtractor={(festival: FestivalTypeID) => festival._id}
-        /> */}
-        <Text>
-        {JSON.stringify(hospitals)}
-
-        </Text>
-      </SafeAreaView>
-    </SafeAreaProvider>
+    <ScrollView style={styles.container}>
+      {isAdmin() && <Title style={styles.title}>Content you Created</Title>}
+      {hospitals && <HospitalList hospitals={hospitals} />}
+    </ScrollView>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    padding: 16,
   },
-  
+  title: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 16,
+  },
+  noHospitals: {
+    fontSize: 14,
+    color: '#666',
+  },
 })
 
-export default Tab
+export default index

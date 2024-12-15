@@ -23,8 +23,8 @@ export const SessionProvider = (props: PropsWithChildren) => {
   return (
     <AuthContext.Provider
       value={{
-        signIn: (token: any) => {
-          setSession(token)
+        signIn: (userData: UserData) => {
+          setSession(JSON.stringify(userData))
         },
         signOut: () => {
           setSession(null)

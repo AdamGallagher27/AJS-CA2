@@ -1,4 +1,4 @@
-import { Text, StyleSheet, FlatList } from 'react-native'
+import { Text, StyleSheet } from 'react-native'
 import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context'
 
 export default function Tab() {
@@ -18,6 +18,5 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  
+  }
 })

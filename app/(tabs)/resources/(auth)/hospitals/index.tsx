@@ -1,14 +1,14 @@
+import HospitalList from '@/components/hospitals/HospitalList'
 import { useState, useEffect } from 'react'
-import { View, Text } from 'react-native'
+import { ScrollView } from 'react-native'
 
 const index = () => {
-  // will add hospitals type later
-  const [hospitals, setHospitals] = useState<any[]>([])
+  const [hospitals, setHospitals] = useState<Hospital[]>([])
 
   useEffect(() => {
     const fetchHospitals = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/hospitals')
+        const response = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/api/hospitals`)
         setHospitals(await response.json())
       }
       catch (error) {
@@ -20,10 +20,9 @@ const index = () => {
   }, [])
 
   return (
-    <View>
-      <Text>show all hospitals</Text>
-      <Text>{hospitals && JSON.stringify(hospitals)}</Text>
-    </View>
+    <ScrollView>
+      {hospitals && <HospitalList hospitals={hospitals} />}
+    </ScrollView>
   )
 }
 

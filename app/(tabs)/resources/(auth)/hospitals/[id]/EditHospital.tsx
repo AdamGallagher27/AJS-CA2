@@ -3,7 +3,7 @@ import { useUserId } from '@/hooks/useUserId'
 import { useState } from 'react'
 import { View, Text, TextInput, Switch, Button } from 'react-native'
 
-const create = () => {
+const EditHospital = () => {
 
   const token = useToken()
   const userId = useUserId()
@@ -14,7 +14,9 @@ const create = () => {
   const [hasEmergencyServices, setHasEmergencyServices] = useState(false)
 
   // get all rooms aswell
-  
+
+  // get all hospitals
+
   const create = async () => {
     try {
       const response = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/api/hospitals`, {
@@ -68,4 +70,4 @@ const create = () => {
   )
 }
 
-export default create
+export default EditHospital

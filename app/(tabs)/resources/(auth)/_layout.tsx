@@ -1,6 +1,7 @@
 import { Text } from 'react-native'
-import { Slot, Redirect } from 'expo-router'
+import { Slot } from 'expo-router'
 import { useSession } from '@/contexts/AuthContext'
+import AccountCheck from '@/components/generic/AccountCheck'
 
 export default function Root() {
     const { session, isLoading }:any = useSession()
@@ -10,7 +11,7 @@ export default function Root() {
     }
 
     if(!session){
-        return <Redirect href='/' />
+        return <AccountCheck />
     }
 
     return (

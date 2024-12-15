@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { View, Text } from 'react-native'
 
-const show = () => {
+const ShowHospital = () => {
   // will add hospital type later
   const [hospital, setHospital] = useState<any>()
   const testId = '67376f0e2fe6ab238dbbdc5c'
@@ -22,10 +22,10 @@ const show = () => {
 
   return (
     <View>
-      <Text>show one hospital</Text>
+      <Text>ShowHospital one hospital</Text>
       <Text>{hospital && JSON.stringify(hospital)}</Text>
     </View>
   )
 }
 
-export default show
+export default ShowHospital

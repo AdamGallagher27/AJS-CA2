@@ -1,26 +1,28 @@
-import { Tabs } from 'expo-router';
+import { Tabs } from 'expo-router'
 
-export default function TabLayout() {
+const TabLayout = () => {
   return (
-    <Tabs screenOptions={{ tabBarActiveTintColor: 'blue' }}>
+    <Tabs screenOptions={{ tabBarActiveTintColor: 'blue', tabBarIcon: undefined }}>
       <Tabs.Screen
-        name="index"
+        name='index'
         options={{
           title: 'Home',
         }}
       />
       <Tabs.Screen
-        name="resources"
+        name='resources'
         options={{
           title: 'Resources',
         }}
       />
       <Tabs.Screen
-        name="settings"
+        name='profile'
         options={{
-          title: 'Settings',
+          title: 'Profile',
         }}
       />
     </Tabs>
-  );
+  )
 }
+
+export default TabLayout

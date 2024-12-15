@@ -1,14 +1,14 @@
-import { Text, StyleSheet, FlatList } from 'react-native'
-import { useEffect, useState } from 'react'
-import axios from 'axios'
+import AccountCheck from '@/components/generic/AccountCheck'
+import { Text, StyleSheet } from 'react-native'
 import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context'
 
 export default function Tab() {
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
+        <AccountCheck />
         <Text>
-        Settings page
+          Admin controls??????
         </Text>
       </SafeAreaView>
     </SafeAreaProvider>
@@ -21,5 +21,4 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  
 })

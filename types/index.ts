@@ -1,4 +1,13 @@
 
+interface UserData {
+  message: string
+  full_name: string
+  email: string
+  user_id: string
+  role: string
+  token: string
+}
+
 interface DatabaseEntry {
   _id: string
   created_by: string
