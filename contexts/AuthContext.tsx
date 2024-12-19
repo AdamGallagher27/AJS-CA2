@@ -1,5 +1,5 @@
 import { createContext, useContext, PropsWithChildren } from 'react'
-import { IAuthContext } from '@/types'
+import { IAuthContext, UserData } from '@/types'
 import { useStorageState } from '@/hooks/useStorageState'
 
 const AuthContext = createContext<IAuthContext | null>(null)

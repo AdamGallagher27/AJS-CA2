@@ -7,6 +7,8 @@ const EditHospital = () => {
 
   const token = useToken()
   const userId = useUserId()
+
+  // update this later
   const [title, setTitle] = useState('')
   const [city, setCity] = useState('')
   const [dailyRate, setDailyRate] = useState('')

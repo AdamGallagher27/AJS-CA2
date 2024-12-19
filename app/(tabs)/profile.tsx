@@ -1,15 +1,20 @@
 import AccountCheck from '@/components/generic/AccountCheck'
+import SignOutButton from '@/components/generic/SignOutButton'
+import { useToken } from '@/hooks/useToken'
 import { Text, StyleSheet } from 'react-native'
 import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context'
 
-export default function Tab() {
+const Tab = () => {
+  const token = useToken()
+
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
-        <AccountCheck />
+        {!token ? <AccountCheck /> : <SignOutButton />}
         <Text>
           Admin controls??????
         </Text>
+        
       </SafeAreaView>
     </SafeAreaProvider>
   )
@@ -22,3 +27,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 })
+
+export default Tab

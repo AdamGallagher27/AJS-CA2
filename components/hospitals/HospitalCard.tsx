@@ -1,5 +1,5 @@
-import { useRoute } from '@react-navigation/native'
-import { useNavigation } from 'expo-router'
+import { Hospital } from '@/types/resources'
+import { useRouter } from 'expo-router'
 import React from 'react'
 import { View, StyleSheet } from 'react-native'
 import { Card, Title, Paragraph, Chip, Button } from 'react-native-paper'
@@ -10,22 +10,20 @@ interface Props {
 
 const HospitalCard = ({ hospital }: Props) => {
   const {
-    // _id,
+    _id,
     title,
     city,
     daily_rate,
     number_of_departments,
     has_emergency_services,
+    is_deleted
   } = hospital
 
+  if(is_deleted) {
+    return
+  }
 
-  // const navigation = useNavigation()
-  // const currentRoute = useRoute()
-
-  // const navigateToView = () => {
-  //   const path = currentRoute.name
-
-  // }
+  const router = useRouter()
 
   return (
     <Card style={styles.card}>
@@ -49,7 +47,7 @@ const HospitalCard = ({ hospital }: Props) => {
       </Card.Content>
 
       <Card.Actions style={styles.actions}>
-        <Button onPress={() => console.log('View Details Clicked')}>View Details</Button>
+        <Button onPress={() => router.push(`/resources/hospitals/${_id}/ShowHospital`)}>View Details</Button>
       </Card.Actions>
     </Card>
   )

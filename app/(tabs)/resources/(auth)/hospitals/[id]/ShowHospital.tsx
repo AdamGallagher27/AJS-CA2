@@ -1,29 +1,36 @@
+import NotFound from '@/components/generic/NotFound'
+import ShowSingleHospital from '@/components/hospitals/ShowSingleHospital'
+import { Hospital } from '@/types/resources'
+import { fetchHospitalById } from '@/utils/api'
+import { useLocalSearchParams } from 'expo-router/build/hooks'
 import { useState, useEffect } from 'react'
-import { View, Text } from 'react-native'
+import { View } from 'react-native'
 
 const ShowHospital = () => {
-  // will add hospital type later
-  const [hospital, setHospital] = useState<any>()
-  const testId = '67376f0e2fe6ab238dbbdc5c'
+  const [hospital, setHospital] = useState<Hospital>()
+  const { id } = useLocalSearchParams<{ id: string }>()
 
   useEffect(() => {
-    const fetchHospitals = async () => {
+
+    const fetchData = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/hospitals/${testId}`)
-        setHospital(await response.json())
+        const response = await fetchHospitalById(id)
+
+        if(response) {
+          setHospital(response)
+        }
       }
-      catch (error) {
+      catch(error) {
         console.error(error)
       }
     }
 
-    fetchHospitals()
+    fetchData()
   }, [])
 
   return (
     <View>
-      <Text>ShowHospital one hospital</Text>
-      <Text>{hospital && JSON.stringify(hospital)}</Text>
+      {hospital ? <ShowSingleHospital hospital={hospital} /> : <NotFound resourceName='Hospital'  />}
     </View>
   )
 }

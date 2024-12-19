@@ -7,6 +7,8 @@ const create = () => {
 
   const token = useToken()
   const userId = useUserId()
+
+  // update this later
   const [title, setTitle] = useState('')
   const [city, setCity] = useState('')
   const [dailyRate, setDailyRate] = useState('')
@@ -14,7 +16,6 @@ const create = () => {
   const [hasEmergencyServices, setHasEmergencyServices] = useState(false)
 
   // get all rooms aswell
-  
   const create = async () => {
     try {
       const response = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/api/hospitals`, {
