@@ -1,48 +1,58 @@
 import { Text, StyleSheet, View } from 'react-native'
 import { TextInput, Button } from 'react-native-paper';
 import { useState } from 'react'
-import axios from 'axios'
-import { useSession } from '@/contexts/AuthContext'
 import React from 'react'
+import axios from 'axios';
 
-const Login = () => {
+const Register = () => {
   const [form, setForm] = useState({
+    fullName: '',
     email: '',
     password: ''
   })
   const [error, setError] = useState('')
 
-  const { signIn } = useSession()
-
-
   const handlePress = () => {
-    axios.post(`${process.env.EXPO_PUBLIC_API_URL}/api/users/login`, {
+    // for some reason axios does not fail cors but fetch does???????
+    axios.post(`${process.env.EXPO_PUBLIC_API_URL}/api/users/register`, {
+      full_name: form.fullName,
       email: form.email,
       password: form.password
     })
-      .then(response => {
-        signIn(response.data)
-      })
-      .catch(e => {
-        console.log(e)
-        setError(e.response.data.message)
-      })
+    .then(response => {
+
+      // route to login form then
+      console.log(response)
+    })
+    .catch(error => {
+      // write proper error handleing for this
+      console.log(error)
+      
+    })
   }
 
   return (
     <View style={styles.container}>
       <TextInput
-        label="Email"
-        mode="outlined"
-        value={form.email}
-        onChangeText={(text) => setForm(prevState => ({ ...prevState, email: text }))}
+        label='Full Name'
+        mode='outlined'
+        value={form.fullName}
+        onChangeText={(text) => setForm(prevState => ({ ...prevState, fullName: text }))}
         style={styles.input}
-        keyboardType="email-address"
       />
 
       <TextInput
-        label="Password"
-        mode="outlined"
+        label='Email'
+        mode='outlined'
+        value={form.email}
+        onChangeText={(text) => setForm(prevState => ({ ...prevState, email: text }))}
+        style={styles.input}
+        keyboardType='email-address'
+      />
+
+      <TextInput
+        label='Password'
+        mode='outlined'
         value={form.password}
         onChangeText={(text) => setForm(prevState => ({ ...prevState, password: text }))}
         style={styles.input}
@@ -53,11 +63,11 @@ const Login = () => {
         <Text style={styles.errorText}>{error}</Text>
       )}
       <Button
-        mode="contained"
+        mode='contained'
         onPress={handlePress}
         style={styles.button}
       >
-        Login
+        Register
       </Button>
     </View>
   )
@@ -82,4 +92,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default Login
+export default Register

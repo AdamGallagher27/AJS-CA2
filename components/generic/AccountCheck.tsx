@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Card, Text, } from 'react-native-paper'
 import { View, StyleSheet } from 'react-native'
 import Login from './Login'
+import Register from './Register'
 
 const AccountCheck = () => {
   const [isLoggingIn, setIsLoggingIn] = useState(true)
@@ -14,7 +15,7 @@ const AccountCheck = () => {
             {isLoggingIn ? 'Login' : 'Register'}
           </Text>
           <View>
-            {isLoggingIn ? <Login /> : 'Register'}
+            {isLoggingIn ? <Login /> : <Register />}
           </View>
         </Card.Content>
         <Card.Actions>

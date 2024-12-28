@@ -1,13 +1,19 @@
-import { Text, StyleSheet } from 'react-native'
+import { ResourceTitleCard } from '@/components/generic/ResourceTitleCard'
+import { StyleSheet } from 'react-native'
 import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context'
 
-export default function Tab() {
+const resources = ['hospitals', 'rooms', 'surgeries', 'workers', 'patients']
+
+const Tab = () => {
+
+  const cards = resources.map((title: string) => {
+    return <ResourceTitleCard title={title} />
+  })
+
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
-        <Text>
-        show a list of all resources
-        </Text>
+        {cards}
       </SafeAreaView>
     </SafeAreaProvider>
   )
@@ -20,3 +26,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   }
 })
+
+export default Tab
