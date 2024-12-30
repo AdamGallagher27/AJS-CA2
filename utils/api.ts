@@ -397,3 +397,29 @@ export const fetchUserCreatedResources = async (token: string): Promise<UserReso
   return null
 
 }
+
+export const deleteResource = async (token: string, resourceName: string, id: string) => {
+  try{
+    const response = await fetch(`${EXPO_PUBLIC_API_URL}/api/${resourceName}/${id}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch patients`)
+    }
+    const resolved = await response.json()
+
+    if(resolved) {
+      return resolved
+    }
+
+    return null
+
+  }
+  catch(error) {
+    console.error(error)
+  }
+}

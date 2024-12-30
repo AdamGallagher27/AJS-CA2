@@ -1,7 +1,9 @@
 import { useToken } from '@/hooks/useToken'
 import { useUserId } from '@/hooks/useUserId'
+import { useRouter } from 'expo-router'
 import { useState } from 'react'
-import { View, Text, TextInput, Switch, Button } from 'react-native'
+import { View } from 'react-native'
+import { Text, TextInput, Switch, Button } from 'react-native-paper'
 
 const create = () => {
 
@@ -14,6 +16,9 @@ const create = () => {
   const [dailyRate, setDailyRate] = useState('')
   const [numberOfDepartments, setNumberOfDepartments] = useState('')
   const [hasEmergencyServices, setHasEmergencyServices] = useState(false)
+
+  const router = useRouter()
+  const path = '/resources/hospitals'
 
   // get all rooms aswell
   const create = async () => {
@@ -64,7 +69,8 @@ const create = () => {
         value={hasEmergencyServices}
         onValueChange={setHasEmergencyServices}
       />
-      <Button title='Create' onPress={create} />
+      <Button onPress={create}>Create</Button>
+      <Button onPress={() => router.push(path)}>Back To Hospitals</Button>
     </View>
   )
 }

@@ -1,9 +1,10 @@
 import { isAdmin } from '@/hooks/isAdmin'
-import React from 'react'
+import React, { useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Button, Card, Chip, List, Paragraph, Title } from 'react-native-paper'
 import NotFound from '../generic/NotFound'
 import { Room, Hospital } from '@/types/resources'
+import DeleteModal from '../generic/DeleteModal'
 
 type Props = {
   hospital: Hospital
@@ -11,6 +12,7 @@ type Props = {
 
 const ShowSingleHospital = ({ hospital }: Props) => {
   const {
+    _id,
     title,
     city,
     daily_rate,
@@ -23,60 +25,77 @@ const ShowSingleHospital = ({ hospital }: Props) => {
   } = hospital
 
 
-  if(is_deleted) {
+  if (is_deleted) {
     return <NotFound resourceName='Hospital' />
   }
 
   const admin = isAdmin()
 
+  const [showDeleteModal, setShowDeleteModal] = useState(false)
+
+  const onDismiss = () => {
+    setShowDeleteModal(false)
+  }
+
   return (
-    <Card style={styles.card}>
-      <Card.Content>
-        <Title style={styles.title}>{title}</Title>
-        <Paragraph style={styles.subtitle}>Located in {city}</Paragraph>
+    <>
+      <Card style={styles.card}>
+        <Card.Content>
+          <Title style={styles.title}>{title}</Title>
+          <Paragraph style={styles.subtitle}>Located in {city}</Paragraph>
 
-        <View style={styles.infoRow}>
-          <Chip style={styles.chip}>Daily Rate: ${daily_rate}</Chip>
-          <Chip style={styles.chip}>Departments: {number_of_departments}</Chip>
-        </View>
-
-        <View style={styles.infoRow}>
-          <Chip
-            style={[
-              styles.chip,
-              has_emergency_services ? styles.emergencyChip : styles.noEmergencyChip,
-            ]}
-            icon={has_emergency_services ? 'check-circle' : 'close-circle'}
-          >
-            {has_emergency_services ? 'Emergency Services Available' : 'No Emergency Services'}
-          </Chip>
-        </View>
-        <View>
-          <Paragraph>Created At: {new Date(createdAt).toLocaleString()}</Paragraph>
-          <Paragraph>Updated At: {new Date(updatedAt).toLocaleString()}</Paragraph>
-        </View>
-
-        {admin &&
-          <View>
-            <Button onPress={() => console.log('edit')}>Edit</Button>
-            <Button onPress={() => console.log('delete')}>Delete</Button>
+          <View style={styles.infoRow}>
+            <Chip style={styles.chip}>Daily Rate: ${daily_rate}</Chip>
+            <Chip style={styles.chip}>Departments: {number_of_departments}</Chip>
           </View>
-        }
+
+          <View style={styles.infoRow}>
+            <Chip
+              style={[
+                styles.chip,
+                has_emergency_services ? styles.emergencyChip : styles.noEmergencyChip,
+              ]}
+              icon={has_emergency_services ? 'check-circle' : 'close-circle'}
+            >
+              {has_emergency_services ? 'Emergency Services Available' : 'No Emergency Services'}
+            </Chip>
+          </View>
+          <View>
+            <Paragraph>Created At: {new Date(createdAt).toLocaleString()}</Paragraph>
+            <Paragraph>Updated At: {new Date(updatedAt).toLocaleString()}</Paragraph>
+          </View>
+
+          {admin &&
+            <View>
+              <Button onPress={() => console.log('edit')}>Edit</Button>
+              <Button onPress={() => setShowDeleteModal(true)}>Delete</Button>
+            </View>
+
+          }
 
 
-        {rooms && <List.Section>
-          <List.Subheader style={styles.subtitle}>Available Rooms</List.Subheader>
-          {rooms.map(({ _id, room_number, room_type }: Room) => (
-            <List.Item
-              key={_id}
-              title={`Room Number : ${room_number}`}
-              description={`Room Type : ${room_type}`}
-            />
-          ))}
-        </List.Section>}
+          {rooms && <List.Section>
+            <List.Subheader style={styles.subtitle}>Available Rooms</List.Subheader>
+            {rooms.map(({ _id, room_number, room_type }: Room) => (
+              <List.Item
+                key={_id}
+                title={`Room Number : ${room_number}`}
+                description={`Room Type : ${room_type}`}
+              />
+            ))}
+          </List.Section>}
 
-      </Card.Content>
-    </Card>
+        </Card.Content>
+      </Card>
+      {admin && 
+        <DeleteModal 
+        isVisible={showDeleteModal} 
+        onDismiss={onDismiss} 
+        resourceName='hospitals' 
+        id={_id} 
+        />}
+    </>
+
   )
 
 
