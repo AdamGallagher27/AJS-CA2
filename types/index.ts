@@ -9,13 +9,15 @@ export interface UserData {
   token: string
 }
 
+// these should never be null because they come from the db
+//  but for convenience I made them optional params
 export interface DatabaseEntry {
   _id: string
-  created_by: string
+  created_by?: string
   is_deleted?: boolean
-  createdAt: string
-  updatedAt: string
-  __v: number
+  createdAt?: string
+  updatedAt?: string
+  __v?: number
 }
 
 interface HospitalId extends Hospital {

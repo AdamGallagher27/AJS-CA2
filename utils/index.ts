@@ -1,3 +1,4 @@
+import { Hospital, Room } from "@/types/resources"
 
 export const getPropertyNameBasedOnResourceType = (type: string) => {
   switch (type) {
@@ -17,14 +18,18 @@ export const getPropertyNameBasedOnResourceType = (type: string) => {
 export const getRouteBasedOnResourceType = (type: string, id: string,) => {
   switch (type) {
     case 'hospitals':
-      return `./resources/${type}/${id}/ShowHospital`
+      return `./resources/${type}/${id}/show`
     case 'rooms':
-      return `./resources/${type}/${id}/ShowRoom`
+      return `./resources/${type}/${id}/show`
     case 'surgeries':
-      return `./resources/${type}/${id}/ShowSurgery`
+      return `./resources/${type}/${id}/show`
     case 'patients':
-      return `./resources/${type}/${id}/ShowPatient`
+      return `./resources/${type}/${id}/show`
     case 'workers':
-      return `./resources/${type}/${id}/ShowWorker`
+      return `./resources/${type}/${id}/show`
   }
+}
+
+export const getResourceIdsFromArray = (resourceArray: Hospital[] | Room[]) => {
+  return resourceArray.map(resource => resource._id)
 }

@@ -6,7 +6,7 @@ import { useLocalSearchParams } from 'expo-router/build/hooks'
 import { useState, useEffect } from 'react'
 import { View } from 'react-native'
 
-const ShowHospital = () => {
+const show = () => {
   const [hospital, setHospital] = useState<Hospital>()
   const { id } = useLocalSearchParams<{ id: string }>()
 
@@ -35,4 +35,4 @@ const ShowHospital = () => {
   )
 }
 
-export default ShowHospital
+export default show

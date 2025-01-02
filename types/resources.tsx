@@ -42,8 +42,8 @@ export interface Room extends DatabaseEntry {
 
 export interface Hospital extends DatabaseEntry {
   has_emergency_services: boolean
-  number_of_departments: number
-  daily_rate: number
+  number_of_departments: number | string
+  daily_rate: number | string
   city: string
   title: string
   rooms?: Room[]

@@ -47,7 +47,7 @@ const HospitalCard = ({ hospital }: Props) => {
       </Card.Content>
 
       <Card.Actions style={styles.actions}>
-        <Button onPress={() => router.push(`/resources/hospitals/${_id}/ShowHospital`)}>View Details</Button>
+        <Button onPress={() => router.push(`/resources/hospitals/${_id}/show` as never)}>View Details</Button>
       </Card.Actions>
     </Card>
   )
