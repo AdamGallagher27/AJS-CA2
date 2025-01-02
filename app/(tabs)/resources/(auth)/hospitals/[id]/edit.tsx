@@ -1,8 +1,11 @@
+import { FormError } from '@/components/generic/FormError'
 import { useToken } from '@/hooks/useToken'
 import { useUserId } from '@/hooks/useUserId'
+import { FormErrors } from '@/types'
 import { Hospital, Room } from '@/types/resources'
 import { getResourceIdsFromArray } from '@/utils'
-import { fetchAllRooms, fetchHospitalById } from '@/utils/api'
+import { fetchAll, fetchById } from '@/utils/api'
+import { validateHospitalForm } from '@/utils/validation'
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import React, { useEffect, useState } from 'react'
 import { View } from 'react-native'
@@ -23,13 +26,19 @@ const edit = () => {
   const userId = useUserId()
   const { id } = useLocalSearchParams<{ id: string }>()
 
+  // state variable for the form
   const [form, setForm] = useState<Hospital | null>(initalFormState)
 
   // rooms from db
   const [allRooms, setAllRooms] = useState<Room[] | null>([])
 
   // rooms selected from the ui
-  const [selectedRooms, setSelectedRooms] = useState<Room[]>([]);
+  const [selectedRooms, setSelectedRooms] = useState<Room[]>([])
+
+  // state variable for the error messages
+  const [errors, setErrors] = useState<FormErrors | null>()
+
+  const pathToShowSingleHospital = `/resources/hospitals/${id}/show`
 
   const handleSelectRoom = (room: Room) => {
 
@@ -39,14 +48,14 @@ const edit = () => {
       prev.some((r) => r._id === room._id)
         ? prev.filter((r) => r._id !== room._id)
         : [...prev, room]
-    );
+    )
   }
 
-  // get all hospitals and rooms
+  // get selected hospitals and all rooms for drop down
   useEffect(() => {
     const fetchRooms = async () => {
       if (token) {
-        setAllRooms(await fetchAllRooms(token))
+        setAllRooms(await fetchAll('rooms', token))
       }
     }
 
@@ -55,7 +64,7 @@ const edit = () => {
       let hospital
 
       if (id) {
-        hospital = await fetchHospitalById(id)
+        hospital = await fetchById('hospitals', id)
         setForm(hospital)
       }
 
@@ -82,12 +91,19 @@ const edit = () => {
       })
 
       if (response.ok) {
-        console.log(await response.json())
         router.push(`/resources/hospitals/${id}/show` as never)
       }
     }
     catch (error) {
-      console.error(await error)
+      console.error(error)
+    }
+  }
+
+  const handleSubmit = () => {
+    validateHospitalForm(form, setErrors)
+
+    if(!errors) {
+      edit()
     }
   }
 
@@ -97,36 +113,40 @@ const edit = () => {
   return (
     <View>
       <Text>Edit Hospital</Text>
+      <FormError message={errors?.title} />
       <TextInput
         placeholder='Title'
         value={form.title}
         // I need to ensure that this field is not null after the api request so I use the inital form state as a fallback
         onChangeText={(text) => setForm(prevState => (prevState ? { ...prevState, title: text } : { ...initalFormState, title: text }))}
       />
+      <FormError message={errors?.city} />
       <TextInput
         placeholder='City'
         value={form.city}
         onChangeText={(text) => setForm(prevState => (prevState ? { ...prevState, city: text } : { ...initalFormState, city: text }))}
       />
+      <FormError message={errors?.daily_rate as string} />
       <TextInput
         placeholder='Daily Rate'
         keyboardType='numeric'
         value={form.daily_rate as string}
         onChangeText={(text) => setForm(prevState => (prevState ? { ...prevState, daily_rate: text } : { ...initalFormState, daily_rate: text }))}
       />
+      <FormError message={errors?.number_of_departments as string} />
       <TextInput
         placeholder='Number of Departments'
         keyboardType='numeric'
         value={form.number_of_departments as string}
         onChangeText={(text) => setForm(prevState => (prevState ? { ...prevState, number_of_departments: text } : { ...initalFormState, number_of_departments: text }))}
       />
-      <Text>Hospital has Emergency Servvices</Text>
+      <Text>Hospital has Emergency Services</Text>
       <Switch
         value={form.has_emergency_services}
         onValueChange={(input) => setForm(prevState => (prevState ? { ...prevState, has_emergency_services: input } : { ...initalFormState, has_emergency_services: input }))}
       />
-      <List.Accordion title='Rooms'>
-        {allRooms && allRooms.map((room) => (
+      {allRooms && <List.Accordion title='Rooms'>
+        {allRooms.map((room) => (
           <View key={room._id} style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 5 }}>
             <Checkbox
               status={(selectedRooms.some((r) => r._id === room._id)) ? 'checked' : 'unchecked'}
@@ -135,10 +155,10 @@ const edit = () => {
             <Text>{`${room.room_type} - Room ${room.room_number}`}</Text>
           </View>
         ))}
-      </List.Accordion>
+      </List.Accordion>}
 
-      <Button onPress={edit}>Edit</Button>
-
+      <Button onPress={handleSubmit}>Edit</Button>
+      <Button onPress={() => router.push(pathToShowSingleHospital as never)}>Back To Hospitals</Button>
     </View>
   )
 }

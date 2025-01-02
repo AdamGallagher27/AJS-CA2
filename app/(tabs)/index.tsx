@@ -3,7 +3,7 @@ import HospitalList from '@/components/hospitals/HospitalList'
 import { isAdmin } from '@/hooks/isAdmin'
 import { useToken } from '@/hooks/useToken'
 import { Hospital, UserResources } from '@/types/resources'
-import { fetchAllHospitals, fetchUserCreatedResources } from '@/utils/api'
+import { fetchAll, fetchUserCreatedResources } from '@/utils/api'
 import React, { useState, useEffect } from 'react'
 import { ScrollView, StyleSheet } from 'react-native'
 import { Title } from 'react-native-paper'
@@ -32,7 +32,7 @@ const index = () => {
 
     const fetchHospital = async () => {
       try {
-        const response = await fetchAllHospitals()
+        const response = await fetchAll('hospitals')
 
         if (response) {
           setHospitals(response)

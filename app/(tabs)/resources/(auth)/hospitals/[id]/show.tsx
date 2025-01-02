@@ -1,7 +1,7 @@
 import NotFound from '@/components/generic/NotFound'
 import ShowSingleHospital from '@/components/hospitals/ShowSingleHospital'
 import { Hospital } from '@/types/resources'
-import { fetchHospitalById } from '@/utils/api'
+import { fetchById } from '@/utils/api'
 import { useLocalSearchParams } from 'expo-router/build/hooks'
 import { useState, useEffect } from 'react'
 import { View } from 'react-native'
@@ -14,7 +14,7 @@ const show = () => {
 
     const fetchData = async () => {
       try {
-        const response = await fetchHospitalById(id)
+        const response = await fetchById('hospitals', id)
 
         if(response) {
           setHospital(response)

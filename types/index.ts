@@ -35,3 +35,14 @@ export interface ApiResponse {
   data: Hospital
   message: string
 }
+
+// this type is for returning an object of errors
+// it has all the properties of resources but has them all as optional params
+// so it can be used accross all resource forms
+export interface FormErrors {
+  has_emergency_services?: boolean
+  number_of_departments?: number | string
+  daily_rate?: number | string
+  city?: string
+  title?: string
+}

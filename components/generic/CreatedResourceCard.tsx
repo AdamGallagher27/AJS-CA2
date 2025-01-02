@@ -23,7 +23,7 @@ export const CreatedResourceCard = ({resourceType, resource}: Props) => {
 
     return (
     // had to add as never to path to prevent ts error
-    <Card style={{ margin: 10 }} onPress={() => router.push(path as never)}>
+    <Card key={resource._id} style={{ margin: 10 }} onPress={() => router.push(path as never)}>
       <Card.Content>
         {/* had to add as any to prevent ts error */}
         <Title>{(resource as any)[property]}</Title>

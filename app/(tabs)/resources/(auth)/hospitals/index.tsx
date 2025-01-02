@@ -1,7 +1,7 @@
 import NotFound from '@/components/generic/NotFound'
 import HospitalList from '@/components/hospitals/HospitalList'
 import { Hospital } from '@/types/resources'
-import { fetchAllHospitals } from '@/utils/api'
+import { fetchAll } from '@/utils/api'
 import { useRouter } from 'expo-router'
 import { useState, useEffect } from 'react'
 import { ScrollView } from 'react-native'
@@ -15,7 +15,7 @@ const index = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetchAllHospitals()
+        const response = await fetchAll('hospitals')
 
         if(response) {
           setHospitals(response)

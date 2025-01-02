@@ -26,7 +26,10 @@ const TabLayout = () => {
           title: 'Resources',
           tabBarIcon: ({ color, size }) => (
             <MaterialIcons name="folder" color={color} size={size} />
-          )
+          ),
+          // explicitly define route for resources so the user can go
+          // to the main resources page easier
+          href: '/resources',
         }}
       />
       <Tabs.Screen
