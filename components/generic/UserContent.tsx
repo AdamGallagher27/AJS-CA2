@@ -8,7 +8,7 @@ type Props = {
   userResouces: UserResources
 }
 
-const UserContent = ({userResouces}: Props) => {
+export const UserContent = ({userResouces}: Props) => {
   return (
     <View>
       {Object.entries(userResouces).map(([resourceType, resourceArray]) => {
@@ -22,5 +22,3 @@ const UserContent = ({userResouces}: Props) => {
     </View>
   )
 }
-
-export default UserContent

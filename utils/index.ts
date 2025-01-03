@@ -1,4 +1,4 @@
-import { Hospital, Room } from "@/types/resources"
+import { Hospital, Room } from '@/types/resources'
 
 export const getPropertyNameBasedOnResourceType = (type: string) => {
   switch (type) {

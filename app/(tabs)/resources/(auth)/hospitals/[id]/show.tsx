@@ -1,5 +1,5 @@
-import NotFound from '@/components/generic/NotFound'
-import ShowSingleHospital from '@/components/hospitals/ShowSingleHospital'
+import { NoResources } from '@/components/generic/NoResources'
+import { ShowSingleHospital } from '@/components/hospitals/ShowSingleHospital'
 import { Hospital } from '@/types/resources'
 import { fetchById } from '@/utils/api'
 import { useLocalSearchParams } from 'expo-router/build/hooks'
@@ -16,11 +16,11 @@ const show = () => {
       try {
         const response = await fetchById('hospitals', id)
 
-        if(response) {
+        if (response) {
           setHospital(response)
         }
       }
-      catch(error) {
+      catch (error) {
         console.error(error)
       }
     }
@@ -30,7 +30,7 @@ const show = () => {
 
   return (
     <View>
-      {hospital ? <ShowSingleHospital hospital={hospital} /> : <NotFound resourceName='Hospital'  />}
+      {hospital ? <ShowSingleHospital hospital={hospital} /> : <NoResources resourceName='Hospital' />}
     </View>
   )
 }

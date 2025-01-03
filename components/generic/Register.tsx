@@ -1,10 +1,10 @@
 import { Text, StyleSheet, View } from 'react-native'
-import { TextInput, Button } from 'react-native-paper';
+import { TextInput, Button } from 'react-native-paper'
 import { useState } from 'react'
 import React from 'react'
-import axios from 'axios';
+import axios from 'axios'
 
-const Register = () => {
+export const Register = () => {
   const [form, setForm] = useState({
     fullName: '',
     email: '',
@@ -91,5 +91,3 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 })
-
-export default Register

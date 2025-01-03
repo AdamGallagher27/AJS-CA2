@@ -8,7 +8,7 @@ interface Props {
   hospital: Hospital
 }
 
-const HospitalCard = ({ hospital }: Props) => {
+export const HospitalCard = ({ hospital }: Props) => {
   const {
     _id,
     title,
@@ -93,5 +93,3 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
 })
-
-export default HospitalCard

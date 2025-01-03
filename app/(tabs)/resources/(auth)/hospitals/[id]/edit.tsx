@@ -8,7 +8,7 @@ import { fetchAll, fetchById } from '@/utils/api'
 import { validateHospitalForm } from '@/utils/validation'
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import React, { useEffect, useState } from 'react'
-import { View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { Text, TextInput, Switch, Button, Checkbox, List } from 'react-native-paper'
 
 const initalFormState = {
@@ -102,34 +102,44 @@ const edit = () => {
   const handleSubmit = () => {
     validateHospitalForm(form, setErrors)
 
-    if(!errors) {
+    if (!errors) {
       edit()
     }
   }
 
   // add loading 
   if (!form) return null
-
   return (
-    <View>
-      <Text>Edit Hospital</Text>
+    <View style={styles.container}>
+      <Text style={styles.header}>Edit Hospital</Text>
       <FormError message={errors?.title} />
       <TextInput
         placeholder='Title'
         value={form.title}
+        style={styles.input}
         // I need to ensure that this field is not null after the api request so I use the inital form state as a fallback
-        onChangeText={(text) => setForm(prevState => (prevState ? { ...prevState, title: text } : { ...initalFormState, title: text }))}
+        onChangeText={(text) =>
+          setForm((prevState) =>
+            prevState ? { ...prevState, title: text } : { ...initalFormState, title: text }
+          )
+        }
       />
       <FormError message={errors?.city} />
       <TextInput
         placeholder='City'
         value={form.city}
-        onChangeText={(text) => setForm(prevState => (prevState ? { ...prevState, city: text } : { ...initalFormState, city: text }))}
+        style={styles.input}
+        onChangeText={(text) =>
+          setForm((prevState) =>
+            prevState ? { ...prevState, city: text } : { ...initalFormState, city: text }
+          )
+        }
       />
       <FormError message={errors?.daily_rate as string} />
       <TextInput
         placeholder='Daily Rate'
         keyboardType='numeric'
+        style={styles.input}
         value={form.daily_rate as string}
         onChangeText={(text) => setForm(prevState => (prevState ? { ...prevState, daily_rate: text } : { ...initalFormState, daily_rate: text }))}
       />
@@ -137,13 +147,9 @@ const edit = () => {
       <TextInput
         placeholder='Number of Departments'
         keyboardType='numeric'
+        style={styles.input}
         value={form.number_of_departments as string}
         onChangeText={(text) => setForm(prevState => (prevState ? { ...prevState, number_of_departments: text } : { ...initalFormState, number_of_departments: text }))}
-      />
-      <Text>Hospital has Emergency Services</Text>
-      <Switch
-        value={form.has_emergency_services}
-        onValueChange={(input) => setForm(prevState => (prevState ? { ...prevState, has_emergency_services: input } : { ...initalFormState, has_emergency_services: input }))}
       />
       {allRooms && <List.Accordion title='Rooms'>
         {allRooms.map((room) => (
@@ -156,11 +162,48 @@ const edit = () => {
           </View>
         ))}
       </List.Accordion>}
-
-      <Button onPress={handleSubmit}>Edit</Button>
-      <Button onPress={() => router.push(pathToShowSingleHospital as never)}>Back To Hospitals</Button>
+      <View style={styles.switchContainer}>
+        <Text>Hospital has Emergency Services</Text>
+        <Switch
+          value={form.has_emergency_services}
+          onValueChange={(input) => setForm(prevState => (prevState ? { ...prevState, has_emergency_services: input } : { ...initalFormState, has_emergency_services: input }))}
+        />
+      </View>
+      <Button mode='contained' style={styles.button} onPress={handleSubmit}>Edit</Button>
+      <Button mode='outlined' style={styles.button} onPress={() => router.push(pathToShowSingleHospital as never)}>Back To Hospitals</Button>
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: '#f8f9fa',
+  },
+  header: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  input: {
+    marginBottom: 15,
+    backgroundColor: '#ffffff',
+  },
+  switchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 20,
+    marginTop: 15,
+  },
+  roomRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  button: {
+    marginVertical: 10,
+  },
+})
 
 export default edit

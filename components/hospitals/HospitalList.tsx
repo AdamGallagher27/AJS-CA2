@@ -1,24 +1,24 @@
 import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
-import HospitalCard from './HospitalCard'
-import NotFound from '../generic/NotFound'
+import { HospitalCard } from './HospitalCard'
+import { NoResources } from '../generic/NoResources'
 import { Hospital } from '@/types/resources'
 
 interface Props {
   hospitals: Hospital[]
 }
 
-const HospitalList = ({ hospitals }: Props) => {
+export const HospitalList = ({ hospitals }: Props) => {
   return (
     <View>
-        <Text style={styles.title}>All Hospitals</Text>
-        {hospitals && hospitals.length > 0 ? (
-          hospitals.map((hospital: Hospital, index) => (
-              <HospitalCard key={hospital?._id} hospital={hospital} />
-          ))
-        ) : (
-          <NotFound resourceName='hospitals' />
-        )}
+      <Text style={styles.title}>All Hospitals</Text>
+      {hospitals && hospitals.length > 0 ? (
+        hospitals.map((hospital: Hospital, index) => (
+          <HospitalCard key={hospital?._id} hospital={hospital} />
+        ))
+      ) : (
+        <NoResources resourceName='hospitals' />
+      )}
     </View>
   )
 }
@@ -34,5 +34,3 @@ const styles = StyleSheet.create({
     color: '#666',
   },
 })
-
-export default HospitalList

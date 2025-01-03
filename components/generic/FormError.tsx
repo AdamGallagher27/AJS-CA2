@@ -1,5 +1,5 @@
 import React from 'react'
-import { HelperText } from 'react-native-paper';
+import { HelperText } from 'react-native-paper'
 
 type Props = {
   message: string | undefined

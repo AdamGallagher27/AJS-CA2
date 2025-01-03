@@ -2,7 +2,7 @@ import { useSession } from '@/contexts/AuthContext'
 import React from 'react'
 import { Button } from 'react-native-paper'
 
-const SignOutButton = () => {
+export const SignOutButton = () => {
 
     const { signOut } = useSession()
 
@@ -14,5 +14,3 @@ const SignOutButton = () => {
     </Button>
   )
 }
-
-export default SignOutButton

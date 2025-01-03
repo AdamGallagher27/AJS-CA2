@@ -1,4 +1,4 @@
-import { Hospital } from "./resources"
+import { Hospital } from './resources'
 
 export interface UserData {
   message: string

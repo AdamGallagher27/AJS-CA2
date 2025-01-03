@@ -1,5 +1,5 @@
-import NotFound from '@/components/generic/NotFound'
-import HospitalList from '@/components/hospitals/HospitalList'
+import { NoResources } from '@/components/generic/NoResources'
+import { HospitalList } from '@/components/hospitals/HospitalList'
 import { Hospital } from '@/types/resources'
 import { fetchAll } from '@/utils/api'
 import { useRouter } from 'expo-router'
@@ -11,17 +11,17 @@ const index = () => {
   const [hospitals, setHospitals] = useState<Hospital[]>([])
   const router = useRouter()
   const path = '/resources/hospitals/create'
-  
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetchAll('hospitals')
 
-        if(response) {
+        if (response) {
           setHospitals(response)
         }
       }
-      catch(error) {
+      catch (error) {
         console.error(error)
       }
     }
@@ -32,7 +32,7 @@ const index = () => {
   return (
     <ScrollView>
       <Button onPress={e => router.push(path)}>Create</Button>
-      {hospitals ? <HospitalList hospitals={hospitals} /> : <NotFound resourceName='hospitals' />}
+      {hospitals ? <HospitalList hospitals={hospitals} /> : <NoResources resourceName='hospitals' />}
     </ScrollView>
   )
 }

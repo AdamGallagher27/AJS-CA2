@@ -8,7 +8,7 @@ import { fetchAll } from '@/utils/api'
 import { validateHospitalForm } from '@/utils/validation'
 import { useRouter } from 'expo-router'
 import { useEffect, useState } from 'react'
-import { View } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 import { Text, TextInput, Switch, Button, List, Checkbox } from 'react-native-paper'
 
 const initalFormState = {
@@ -41,7 +41,6 @@ const create = () => {
 
 
   const handleSelectRoom = (room: Room) => {
-
     // this is from chat gpt because there was a bug where
     // if the room is prechecked it would get added twice
     setSelectedRooms((prev) =>
@@ -51,27 +50,20 @@ const create = () => {
     )
   }
 
-  // get all rooms for drop down
   useEffect(() => {
     const fetchRooms = async () => {
       if (token) {
         setAllRooms(await fetchAll('rooms', token))
       }
     }
-
     fetchRooms()
-
   }, [token])
 
-  // get all rooms aswell
   const create = async () => {
-
     // I need to omit the _id value which comes from the inital form state variable 
     // which causes a 422 error on the api
     // chatgpt
-    const { _id, ...formWithoutId } = form as Hospital;
-
-    console.log(formWithoutId)
+    const { _id, ...formWithoutId } = form as Hospital
 
     try {
       const response = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/api/hospitals`, {
@@ -80,7 +72,11 @@ const create = () => {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ ...formWithoutId, created_by: userId, rooms: getResourceIdsFromArray(selectedRooms) })
+        body: JSON.stringify({
+          ...formWithoutId,
+          created_by: userId,
+          rooms: getResourceIdsFromArray(selectedRooms),
+        }),
       })
 
       if (response.ok) {
@@ -105,54 +101,121 @@ const create = () => {
   }
 
   return (
-    <View>
-      <Text>Create new hospital</Text>
+    <View style={styles.container}>
+      <Text style={styles.header}>Create New Hospital</Text>
       <FormError message={errors?.title} />
       <TextInput
         placeholder='Title'
         value={form?.title || ''}
-
-        // I need to use the inital form state variable to prevent a ts error
-        // onChangeText={(text) => setForm((prevState) => {{...prevState, title: text}})}
-        onChangeText={(text) => setForm(prevState => (prevState ? { ...prevState, title: text } : { ...initalFormState, title: text }))}
+        style={styles.input}
+        onChangeText={(text) =>
+          setForm((prevState) =>
+            prevState ? { ...prevState, title: text } : { ...initalFormState, title: text }
+          )
+        }
       />
       <FormError message={errors?.city} />
       <TextInput
         placeholder='City'
         value={form.city}
-        onChangeText={(text) => setForm(prevState => (prevState ? { ...prevState, city: text } : { ...initalFormState, city: text }))} />
+        style={styles.input}
+        onChangeText={(text) =>
+          setForm((prevState) =>
+            prevState ? { ...prevState, city: text } : { ...initalFormState, city: text }
+          )
+        }
+      />
       <FormError message={errors?.daily_rate as string} />
       <TextInput
         placeholder='Daily Rate'
-        value={form.daily_rate as string}
-        onChangeText={(text) => setForm(prevState => (prevState ? { ...prevState, daily_rate: text } : { ...initalFormState, daily_rate: text }))}
+        value={String(form.daily_rate)}
+        style={styles.input}
+        onChangeText={(text) =>
+          setForm((prevState) =>
+            prevState
+              ? { ...prevState, daily_rate: Number(text) }
+              : { ...initalFormState, daily_rate: Number(text) }
+          )
+        }
       />
       <FormError message={errors?.number_of_departments as string} />
       <TextInput
         placeholder='Number of Departments'
-        value={form.number_of_departments as string}
-        onChangeText={(text) => setForm(prevState => (prevState ? { ...prevState, number_of_departments: text } : { ...initalFormState, number_of_departments: text }))}
+        value={String(form.number_of_departments)}
+        style={styles.input}
+        onChangeText={(text) =>
+          setForm((prevState) =>
+            prevState
+              ? { ...prevState, number_of_departments: Number(text) }
+              : { ...initalFormState, number_of_departments: Number(text) }
+          )
+        }
       />
-      <Text>Hospital has Emergency Services</Text>
-      <Switch
-        value={form.has_emergency_services}
-        onValueChange={(input) => setForm(prevState => (prevState ? { ...prevState, has_emergency_services: input } : { ...initalFormState, has_emergency_services: input }))}
-      />
-      {allRooms && <List.Accordion title='Rooms'>
-        {allRooms.map((room) => (
-          <View key={room._id} style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 5 }}>
-            <Checkbox
-              status={(selectedRooms.some((r) => r._id === room._id)) ? 'checked' : 'unchecked'}
-              onPress={() => handleSelectRoom(room)}
-            />
-            <Text>{`${room.room_type} - Room ${room.room_number}`}</Text>
-          </View>
-        ))}
-      </List.Accordion>}
-      <Button onPress={handleSubmit}>Create</Button>
-      <Button onPress={() => router.push(pathToAllHospitals)}>Back To Hospitals</Button>
+      {allRooms && (
+        <List.Accordion title='Select Rooms'>
+          {allRooms.map((room) => (
+            <View key={room._id} style={styles.roomRow}>
+              <Checkbox
+                status={selectedRooms.some((r) => r._id === room._id) ? 'checked' : 'unchecked'}
+                onPress={() => handleSelectRoom(room)}
+              />
+              <Text>{`${room.room_type} - Room ${room.room_number}`}</Text>
+            </View>
+          ))}
+        </List.Accordion>
+      )}
+      <View style={styles.switchContainer}>
+        <Text>Hospital has Emergency Services</Text>
+        <Switch
+          value={form.has_emergency_services}
+          onValueChange={(input) =>
+            setForm((prevState) =>
+              prevState
+                ? { ...prevState, has_emergency_services: input }
+                : { ...initalFormState, has_emergency_services: input }
+            )
+          }
+        />
+      </View>
+      <Button mode='contained' onPress={handleSubmit} style={styles.button}>
+        Create
+      </Button>
+      <Button mode='outlined' onPress={() => router.push(pathToAllHospitals)} style={styles.button}>
+        Back To Hospitals
+      </Button>
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: '#f8f9fa',
+  },
+  header: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  input: {
+    marginBottom: 15,
+    backgroundColor: '#ffffff',
+  },
+  switchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 20,
+    marginTop: 15,
+  },
+  roomRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  button: {
+    marginVertical: 10,
+  },
+})
 
 export default create

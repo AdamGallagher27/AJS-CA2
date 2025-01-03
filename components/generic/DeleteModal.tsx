@@ -11,7 +11,7 @@ type Props = {
   id:string
 }
 
-const DeleteModal = ({ isVisible, onDismiss, resourceName, id }: Props) => {
+export const DeleteModal = ({ isVisible, onDismiss, resourceName, id }: Props) => {
 
 
   const token = useToken()
@@ -54,5 +54,3 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   }
   })
-
-export default DeleteModal

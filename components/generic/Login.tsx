@@ -1,11 +1,11 @@
 import { Text, StyleSheet, View } from 'react-native'
-import { TextInput, Button } from 'react-native-paper';
+import { TextInput, Button } from 'react-native-paper'
 import { useState } from 'react'
 import axios from 'axios'
 import { useSession } from '@/contexts/AuthContext'
 import React from 'react'
 
-const Login = () => {
+export const Login = () => {
   const [form, setForm] = useState({
     email: '',
     password: ''
@@ -32,17 +32,17 @@ const Login = () => {
   return (
     <View style={styles.container}>
       <TextInput
-        label="Email"
-        mode="outlined"
+        label='Email'
+        mode='outlined'
         value={form.email}
         onChangeText={(text) => setForm(prevState => ({ ...prevState, email: text }))}
         style={styles.input}
-        keyboardType="email-address"
+        keyboardType='email-address'
       />
 
       <TextInput
-        label="Password"
-        mode="outlined"
+        label='Password'
+        mode='outlined'
         value={form.password}
         onChangeText={(text) => setForm(prevState => ({ ...prevState, password: text }))}
         style={styles.input}
@@ -53,7 +53,7 @@ const Login = () => {
         <Text style={styles.errorText}>{error}</Text>
       )}
       <Button
-        mode="contained"
+        mode='contained'
         onPress={handlePress}
         style={styles.button}
       >
@@ -81,5 +81,3 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 })
-
-export default Login

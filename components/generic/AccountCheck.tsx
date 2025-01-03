@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { Card, Text, } from 'react-native-paper'
 import { View, StyleSheet } from 'react-native'
-import Login from './Login'
-import Register from './Register'
+import { Login } from './Login'
+import { Register } from './Register'
 
-const AccountCheck = () => {
+export const AccountCheck = () => {
   const [isLoggingIn, setIsLoggingIn] = useState(true)
 
   return (
@@ -19,7 +19,7 @@ const AccountCheck = () => {
           </View>
         </Card.Content>
         <Card.Actions>
-        <Text
+          <Text
             style={styles.linkText}
             onPress={() => setIsLoggingIn(!isLoggingIn)}
           >
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
   },
   linkText: {
     paddingBottom: 16,
-    color: 'blue', 
+    color: 'blue',
     textAlign: 'center',
     flex: 1,
     justifyContent: 'center',
@@ -59,5 +59,3 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 })
-
-export default AccountCheck

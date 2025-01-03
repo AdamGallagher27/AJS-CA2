@@ -25,7 +25,7 @@ const TabLayout = () => {
         options={{
           title: 'Resources',
           tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="folder" color={color} size={size} />
+            <MaterialIcons name='folder' color={color} size={size} />
           ),
           // explicitly define route for resources so the user can go
           // to the main resources page easier
@@ -37,7 +37,7 @@ const TabLayout = () => {
         options={{
           title: 'Profile',
           tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="person" color={color} size={size} />
+            <MaterialIcons name='person' color={color} size={size} />
           ),
         }}
       />

@@ -1,5 +1,5 @@
-import UserContent from '@/components/generic/UserContent'
-import HospitalList from '@/components/hospitals/HospitalList'
+import { UserContent } from '@/components/generic/UserContent'
+import { HospitalList } from '@/components/hospitals/HospitalList'
 import { isAdmin } from '@/hooks/isAdmin'
 import { useToken } from '@/hooks/useToken'
 import { Hospital, UserResources } from '@/types/resources'
@@ -21,11 +21,11 @@ const index = () => {
       try {
         const response = await fetchUserCreatedResources(token)
 
-        if(response) {
+        if (response) {
           setUserResources(response)
         }
       }
-      catch(error) {
+      catch (error) {
         console.error(error)
       }
     }
@@ -43,7 +43,7 @@ const index = () => {
       }
     }
 
-    if(admin) {
+    if (admin) {
       fetchCreatedResources(token)
     }
 
@@ -53,11 +53,11 @@ const index = () => {
 
   return (
     <ScrollView style={styles.container}>
-      {admin && 
-      <>
-        <Title style={styles.title}>Content you Created</Title>
-        {userResources && <UserContent userResouces={userResources} />}
-      </>
+      {admin &&
+        <>
+          <Title style={styles.title}>Content you Created</Title>
+          {userResources && <UserContent userResouces={userResources} />}
+        </>
       }
       {hospitals && <HospitalList hospitals={hospitals} />}
     </ScrollView>

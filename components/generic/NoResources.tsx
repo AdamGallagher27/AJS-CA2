@@ -6,7 +6,7 @@ interface Props {
   resourceName: string
 }
 
-const NoResources = ({ resourceName }: Props) => {
+export const NoResources = ({ resourceName }: Props) => {
   return (
     <View style={styles.container}>
       <Card style={styles.card}>
@@ -37,5 +37,3 @@ const styles = StyleSheet.create({
     color: '#333',
   },
 })
-
-export default NoResources

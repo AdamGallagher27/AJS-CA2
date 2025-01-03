@@ -1,4 +1,4 @@
-import { useStorageState } from "./useStorageState"
+import { useStorageState } from './useStorageState'
 
 export const useToken = () => {
   const [[isLoading, session], setSession] = useStorageState('session')

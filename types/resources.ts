@@ -1,4 +1,4 @@
-import { DatabaseEntry } from "."
+import { DatabaseEntry } from '.'
 
 enum WorkerRole {
   Doctor = 'doctor',

@@ -2,16 +2,16 @@ import { isAdmin } from '@/hooks/isAdmin'
 import React, { useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Button, Card, Chip, List, Paragraph, Title } from 'react-native-paper'
-import NotFound from '../generic/NotFound'
+import { NoResources } from '../generic/NoResources'
 import { Room, Hospital } from '@/types/resources'
-import DeleteModal from '../generic/DeleteModal'
+import { DeleteModal } from '../generic/DeleteModal'
 import { useRouter } from 'expo-router'
 
 type Props = {
   hospital: Hospital
 }
 
-const ShowSingleHospital = ({ hospital }: Props) => {
+export const ShowSingleHospital = ({ hospital }: Props) => {
   const {
     _id,
     title,
@@ -26,7 +26,7 @@ const ShowSingleHospital = ({ hospital }: Props) => {
   } = hospital
 
   if (is_deleted) {
-    return <NotFound resourceName='Hospital' />
+    return <NoResources resourceName='Hospital' />
   }
 
   const admin = isAdmin()
@@ -62,11 +62,11 @@ const ShowSingleHospital = ({ hospital }: Props) => {
             </Chip>
           </View>
 
-          {(createdAt && updatedAt) && 
-          <View>
-            <Paragraph>Created At: {new Date(createdAt).toLocaleString()}</Paragraph>
-            <Paragraph>Updated At: {new Date(updatedAt).toLocaleString()}</Paragraph>
-          </View>
+          {(createdAt && updatedAt) &&
+            <View>
+              <Paragraph>Created At: {new Date(createdAt).toLocaleString()}</Paragraph>
+              <Paragraph>Updated At: {new Date(updatedAt).toLocaleString()}</Paragraph>
+            </View>
           }
 
           {admin &&
@@ -109,5 +109,3 @@ const styles = StyleSheet.create({
     backgroundColor: '#f8d7da',
   },
 })
-
-export default ShowSingleHospital
