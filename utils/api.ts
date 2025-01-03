@@ -1,50 +1,37 @@
 import { UserResources } from '@/types/resources'
+import axios from 'axios'
 
 const { EXPO_PUBLIC_API_URL } = process.env
 
 export const fetchAll = async (resource: string, token?: string) => {
   try {
-    const response = await fetch(`${EXPO_PUBLIC_API_URL}/api/${resource}`, {
+    const response = await axios.get(`${EXPO_PUBLIC_API_URL}/api/${resource}`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
     })
 
-    if (!response.ok) {
-      throw new Error(`Failed to fetch ${resource}`)
+    if (response && response.data) {
+      return response.data
     }
-    const resolved = await response.json()
-
-    if(resolved) {
-      return resolved
-    }
-
-    return null
 
   } catch (error) {
-    console.error('Error fetching hospital:', error)
+    console.error(`Error fetching ${resource}:`, error)
     throw error
   }
 }
 
 export const fetchById = async (resource: string, id: string, token?: string) => {
   try {
-    const response = await fetch(`${EXPO_PUBLIC_API_URL}/api/${resource}/${id}`, {
+    const response = await axios.get(`${EXPO_PUBLIC_API_URL}/api/${resource}/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
     })
 
-    if (!response.ok) {
-      throw new Error(`Failed to fetch hospital with id ${id}`)
+    if (response && response.data.data) {
+      return response.data.data
     }
-    const resolved = await response.json()
-
-    if(resolved) {
-      return resolved.data
-    }
-
-    return null
 
   } catch (error) {
     console.error('Error fetching hospital:', error)
@@ -81,23 +68,16 @@ export const fetchUserCreatedResources = async (token: string): Promise<UserReso
 
 export const deleteResource = async (token: string, resourceName: string, id: string) => {
   try{
-    const response = await fetch(`${EXPO_PUBLIC_API_URL}/api/${resourceName}/${id}`, {
+    const response = await axios.delete(`${EXPO_PUBLIC_API_URL}/api/${resourceName}/${id}`, {
       method: 'DELETE',
       headers: {
         Authorization: `Bearer ${token}`
       }
     })
 
-    if (!response.ok) {
-      throw new Error(`Failed to fetch patients`)
+    if (response && response.data) {
+      return response.data
     }
-    const resolved = await response.json()
-
-    if(resolved) {
-      return resolved
-    }
-
-    return null
 
   }
   catch(error) {

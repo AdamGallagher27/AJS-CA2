@@ -10,7 +10,7 @@ export interface Worker extends DatabaseEntry {
   worker_role: WorkerRole
   first_name: string
   last_name: string
-  surgeries?: string[]
+  surgeries?: Surgery[]
 }
 
 export interface Patient extends DatabaseEntry {
@@ -19,14 +19,14 @@ export interface Patient extends DatabaseEntry {
   insurance: boolean
   age: number
   condition: string
-  surgeries?: string[]
+  surgeries?: Surgery[]
 }
 
 export interface Surgery extends DatabaseEntry {
   surgery_type: string
   date: string  
   duration: number  
-  room: string 
+  room: Room 
   patient: Patient  
   workers?: Worker[]  
 }
@@ -36,7 +36,7 @@ export interface Room extends DatabaseEntry {
   room_type: string
   availability_status: boolean
   daily_rate: number
-  hospital: string 
+  hospital: Hospital 
   surgeries?: Surgery[]
 }
 

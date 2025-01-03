@@ -7,7 +7,7 @@ const resources = ['hospitals', 'rooms', 'surgeries', 'workers', 'patients']
 const Tab = () => {
 
   const cards = resources.map((title: string) => {
-    return <ResourceTitleCard title={title} />
+    return <ResourceTitleCard key={title} title={title} />
   })
 
   return (
