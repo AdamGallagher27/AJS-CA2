@@ -43,17 +43,6 @@ const edit = () => {
   const router = useRouter()
   const pathToAllPatients = '/resources/patients'
 
-  // const handleSelectRoom = (room: Room) => {
-
-  //     // this is from chat gpt because there was a bug where
-  //     // if the room is prechecked it would get added twice
-  //     setSelectedRooms((prev) =>
-  //       prev.some((r) => r._id === room._id)
-  //         ? prev.filter((r) => r._id !== room._id)
-  //         : [...prev, room]
-  //     )
-  //   }
-
   const handleSelectSurgery = (surgery: Surgery) => {
 
     console.log('selected : ')
@@ -187,16 +176,6 @@ const edit = () => {
           )
         }
       />
-      {/* {allRooms && <List.Accordion title='Rooms'>
-              {allRooms.map((room) => (
-                <View key={room._id} style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 5 }}>
-                  <Checkbox
-                    status={(selectedRooms.some((r) => r._id === room._id)) ? 'checked' : 'unchecked'}
-                    onPress={() => handleSelectRoom(room)}
-                  />
-                  <Text>{`${room.room_type} - Room ${room.room_number}`}</Text>
-                </View>
-              ))} */}
       {allSurgeries && (
         <List.Accordion title='Select Surgeries'>
           {allSurgeries.map((surgery) => (
