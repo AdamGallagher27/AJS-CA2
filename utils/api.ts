@@ -69,7 +69,6 @@ export const fetchUserCreatedResources = async (token: string): Promise<UserReso
 export const deleteResource = async (token: string, resourceName: string, id: string) => {
   try{
     const response = await axios.delete(`${EXPO_PUBLIC_API_URL}/api/${resourceName}/${id}`, {
-      method: 'DELETE',
       headers: {
         Authorization: `Bearer ${token}`
       }

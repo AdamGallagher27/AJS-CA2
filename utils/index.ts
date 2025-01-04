@@ -1,4 +1,4 @@
-import { Hospital, Room } from '@/types/resources'
+import { Hospital, Room, Surgery, Worker } from '@/types/resources'
 
 export const getPropertyNameBasedOnResourceType = (type: string) => {
   switch (type) {
@@ -30,6 +30,6 @@ export const getRouteBasedOnResourceType = (type: string, id: string,) => {
   }
 }
 
-export const getResourceIdsFromArray = (resourceArray: Hospital[] | Room[]) => {
+export const getResourceIdsFromArray = (resourceArray: Worker[] | Surgery[] | Hospital[] | Room[] | Surgery[] ) => {
   return resourceArray.map(resource => resource._id)
 }

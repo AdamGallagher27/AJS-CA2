@@ -4,6 +4,7 @@ import { useState } from 'react'
 import axios from 'axios'
 import { useSession } from '@/contexts/AuthContext'
 import React from 'react'
+import { useRouter } from 'expo-router'
 
 export const Login = () => {
   const [form, setForm] = useState({
@@ -12,8 +13,19 @@ export const Login = () => {
   })
   const [error, setError] = useState('')
 
+  const router = useRouter()
   const { signIn } = useSession()
 
+
+  // This routing is different to my other routing
+  // I had this issue where after logging in the home page would not 
+  // rerender with authenticated controls
+  // I added an intermediary route called loading
+  // it takes in a route and then redirects to that route
+  // this forces the home page to rerender with authenticated controls
+  const handleNavigation = () => {
+    router.push('/loading?route=/') 
+  }
 
   const handlePress = () => {
     axios.post(`${process.env.EXPO_PUBLIC_API_URL}/api/users/login`, {
@@ -22,6 +34,7 @@ export const Login = () => {
     })
       .then(response => {
         signIn(response.data)
+        handleNavigation()
       })
       .catch(e => {
         console.log(e)

@@ -9,23 +9,12 @@ export interface UserData {
   token: string
 }
 
-// these should never be null because they come from the db
-//  but for convenience I made them optional params
-export interface DatabaseEntry {
-  _id: string
-  created_by?: string
-  is_deleted?: boolean
-  createdAt?: string
-  updatedAt?: string
-  __v?: number
-}
-
 interface HospitalId extends Hospital {
   _id: string
 }
 
 export interface IAuthContext {
-  signIn: (UserData:UserData) => void
+  signIn: (UserData: UserData) => void
   signOut: () => void
   session?: string | null
   isLoading: boolean
@@ -40,9 +29,26 @@ export interface ApiResponse {
 // it has all the properties of resources but has them all as optional params
 // so it can be used accross all resource forms
 export interface FormErrors {
-  has_emergency_services?: boolean
-  number_of_departments?: number | string
-  daily_rate?: number | string
+  has_emergency_services?: string
+  number_of_departments?: string
+  daily_rate?: string
   city?: string
   title?: string
+  first_name?: string
+  last_name?: string
+  insurance?: string
+  age?: string
+  condition?: string
+  room_number?: string
+  room_type?: string
+  availability_status?: string
+  hospital?: string
+  surgeries?: string
+  surgery_type?: string
+  date?: string  
+  duration?: string
+  room?: string 
+  patient?: string  
+  workers?: string  
+  worker_role?: string
 }

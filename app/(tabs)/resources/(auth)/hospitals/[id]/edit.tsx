@@ -6,6 +6,7 @@ import { Hospital, Room } from '@/types/resources'
 import { getResourceIdsFromArray } from '@/utils'
 import { fetchAll, fetchById } from '@/utils/api'
 import { validateHospitalForm } from '@/utils/validation'
+import axios from 'axios'
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import React, { useEffect, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -80,17 +81,19 @@ const edit = () => {
   }, [id, token])
 
   const edit = async () => {
+
+    const body = { ...form, created_by: userId, rooms: getResourceIdsFromArray(selectedRooms) }
+
     try {
-      const response = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/api/hospitals/${id}`, {
+      const response = await axios.put(`${process.env.EXPO_PUBLIC_API_URL}/api/hospitals/${id}`, body, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ ...form, created_by: userId, rooms: getResourceIdsFromArray(selectedRooms) })
       })
 
-      if (response.ok) {
+      if (response) {
         router.push(`/resources/hospitals/${id}/show` as never)
       }
     }

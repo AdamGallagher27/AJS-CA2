@@ -1,13 +1,16 @@
-import { DatabaseEntry } from '.'
-
-enum WorkerRole {
-  Doctor = 'doctor',
-  Nurse = 'nurse',
-  Surgeon = 'surgeon',
+// these should never be null because they come from the db
+//  but for convenience I made them optional params
+export interface DatabaseEntry {
+  _id: string
+  created_by?: string
+  is_deleted?: boolean
+  createdAt?: string
+  updatedAt?: string
+  __v?: number
 }
 
 export interface Worker extends DatabaseEntry {
-  worker_role: WorkerRole
+  worker_role: string
   first_name: string
   last_name: string
   surgeries?: Surgery[]
@@ -17,7 +20,7 @@ export interface Patient extends DatabaseEntry {
   first_name: string
   last_name: string
   insurance: boolean
-  age: number
+  age: number | string
   condition: string
   surgeries?: Surgery[]
 }
@@ -25,18 +28,18 @@ export interface Patient extends DatabaseEntry {
 export interface Surgery extends DatabaseEntry {
   surgery_type: string
   date: string  
-  duration: number  
-  room: Room 
-  patient: Patient  
+  duration: number | string
+  room?: Room 
+  patient?: Patient  
   workers?: Worker[]  
 }
 
 export interface Room extends DatabaseEntry {
-  room_number: number
+  room_number: number | string
   room_type: string
   availability_status: boolean
-  daily_rate: number
-  hospital: Hospital 
+  daily_rate: number | string
+  hospital?: Hospital 
   surgeries?: Surgery[]
 }
 

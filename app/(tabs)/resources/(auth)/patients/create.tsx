@@ -2,10 +2,10 @@ import { FormError } from '@/components/generic/FormError'
 import { useToken } from '@/hooks/useToken'
 import { useUserId } from '@/hooks/useUserId'
 import { FormErrors } from '@/types'
-import { Hospital, Room } from '@/types/resources'
+import { Patient, Surgery } from '@/types/resources'
 import { getResourceIdsFromArray } from '@/utils'
 import { fetchAll } from '@/utils/api'
-import { validateHospitalForm } from '@/utils/validation'
+import { validatePatientForm } from '@/utils/validation'
 import axios from 'axios'
 import { useRouter } from 'expo-router'
 import { useEffect, useState } from 'react'
@@ -14,11 +14,12 @@ import { Text, TextInput, Switch, Button, List, Checkbox } from 'react-native-pa
 
 const initalFormState = {
   _id: '',
-  title: '',
-  city: '',
-  daily_rate: 0,
-  has_emergency_services: false,
-  number_of_departments: 0,
+  first_name: '',
+  last_name: '',
+  condition: '',
+  age: '',
+  insurance: false,
+  surgeries: [],
 }
 
 const create = () => {
@@ -26,62 +27,66 @@ const create = () => {
   const userId = useUserId()
 
   // state variable for the form
-  const [form, setForm] = useState<Hospital>(initalFormState)
+  const [form, setForm] = useState<Patient>(initalFormState)
 
-  // rooms from db
-  const [allRooms, setAllRooms] = useState<Room[] | null>([])
+  // surgeries from db
+  const [allSurgeries, setAllSurgeries] = useState<Surgery[] | null>([])
 
-  // rooms selected from the ui
-  const [selectedRooms, setSelectedRooms] = useState<Room[]>([])
+  // surgeries selected from the ui
+  const [selectedSurgeries, setSelectedSurgeries] = useState<Surgery[]>([])
 
   // state variable for the error messages
   const [errors, setErrors] = useState<FormErrors | null>()
 
   const router = useRouter()
-  const pathToAllHospitals = '/resources/hospitals'
+  const pathToAllPatients = '/resources/patients'
 
 
-  const handleSelectRoom = (room: Room) => {
+  const handleSelectSurgery = (surgery: Surgery) => {
     // this is from chat gpt because there was a bug where
     // if the room is prechecked it would get added twice
-    setSelectedRooms((prev) =>
-      prev.some((r) => r._id === room._id)
-        ? prev.filter((r) => r._id !== room._id)
-        : [...prev, room]
+    setSelectedSurgeries((prev) =>
+      prev.some((s) => s._id === surgery._id)
+        ? prev.filter((s) => s._id !== surgery._id)
+        : [...prev, surgery]
     )
   }
 
   useEffect(() => {
-    const fetchRooms = async () => {
+    const fetchSurgeries = async () => {
       if (token) {
-        setAllRooms(await fetchAll('rooms', token))
+        setAllSurgeries(await fetchAll('surgeries', token))
       }
     }
-    fetchRooms()
+    fetchSurgeries()
   }, [token])
 
   const create = async () => {
     // I need to omit the _id value which comes from the inital form state variable 
     // which causes a 422 error on the api
     // chatgpt
-    const { _id, ...formWithoutId } = form as Hospital
+    const { _id, ...formWithoutId } = form as Patient
+
+    const body = await {
+      ...formWithoutId,
+      created_by: userId,
+      surgeries: getResourceIdsFromArray(selectedSurgeries),
+    }
 
     try {
-      const response = await axios.post(`${process.env.EXPO_PUBLIC_API_URL}/api/hospitals`, {
+      console.log(body)
+
+      const response = await axios.post(`${process.env.EXPO_PUBLIC_API_URL}/api/patients`, body, 
+      {
         headers: {
           'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          ...formWithoutId,
-          created_by: userId,
-          rooms: getResourceIdsFromArray(selectedRooms),
-        }),
+      },
+        
       })
 
       if (response && response.data) {
         const resolved = await response.data
-        const pathToShow = `/resources/hospitals/${resolved.data._id}/show`
+        const pathToShow = `/resources/patients/${resolved.data._id}/show`
 
         router.push(pathToShow as never)
       }
@@ -92,84 +97,82 @@ const create = () => {
   }
 
   const handleSubmit = () => {
-    if (validateHospitalForm(form, setErrors)) {
+    if (validatePatientForm(form, setErrors)) {
       create()
     }
   }
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Create New Hospital</Text>
-      <FormError message={errors?.title} />
+      <Text style={styles.header}>Create New Patient</Text>
+      <FormError message={errors?.first_name} />
       <TextInput
-        placeholder='Title'
-        value={form?.title || ''}
+        placeholder='First Name'
+        value={form?.first_name}
         style={styles.input}
         onChangeText={(text) =>
           setForm((prevState) =>
-            prevState ? { ...prevState, title: text } : { ...initalFormState, title: text }
+            prevState ? { ...prevState, first_name: text } : { ...initalFormState, first_name: text }
           )
         }
       />
-      <FormError message={errors?.city} />
+      <FormError message={errors?.last_name} />
       <TextInput
-        placeholder='City'
-        value={form.city}
+        placeholder='Last Name'
+        value={form.last_name}
         style={styles.input}
         onChangeText={(text) =>
           setForm((prevState) =>
-            prevState ? { ...prevState, city: text } : { ...initalFormState, city: text }
+            prevState ? { ...prevState, last_name: text } : { ...initalFormState, last_name: text }
           )
         }
       />
-      <FormError message={errors?.daily_rate as string} />
+      <FormError message={errors?.age as string} />
       <TextInput
-        placeholder='Daily Rate'
-        value={String(form.daily_rate)}
-        style={styles.input}
-        onChangeText={(text) =>
-          setForm((prevState) =>
-            prevState
-              ? { ...prevState, daily_rate: Number(text) }
-              : { ...initalFormState, daily_rate: Number(text) }
-          )
-        }
-      />
-      <FormError message={errors?.number_of_departments as string} />
-      <TextInput
-        placeholder='Number of Departments'
-        value={String(form.number_of_departments)}
+        placeholder='Age'
+        value={String(form.age)}
         style={styles.input}
         onChangeText={(text) =>
           setForm((prevState) =>
             prevState
-              ? { ...prevState, number_of_departments: Number(text) }
-              : { ...initalFormState, number_of_departments: Number(text) }
+              ? { ...prevState, age: Number(text) }
+              : { ...initalFormState, age: Number(text) }
           )
         }
       />
-      {allRooms && (
-        <List.Accordion title='Select Rooms'>
-          {allRooms.map((room) => (
-            <View key={room._id} style={styles.roomRow}>
+      <FormError message={errors?.condition} />
+      <TextInput
+        placeholder='Condition'
+        value={form.condition}
+        style={styles.input}
+        onChangeText={(text) =>
+          setForm((prevState) =>
+            prevState ? { ...prevState, condition: text } : { ...initalFormState, condition: text }
+          )
+        }
+      />
+      {allSurgeries && (
+        <List.Accordion title='Select Surgeries'>
+          {allSurgeries.map((surgery) => (
+            <View key={surgery._id} style={styles.surgeryRow}>
               <Checkbox
-                status={selectedRooms.some((r) => r._id === room._id) ? 'checked' : 'unchecked'}
-                onPress={() => handleSelectRoom(room)}
+                status={selectedSurgeries.some((r) => r._id === surgery._id) ? 'checked' : 'unchecked'}
+                onPress={() => handleSelectSurgery(surgery)}
               />
-              <Text>{`${room.room_type} - Room ${room.room_number}`}</Text>
+              <Text>{`${surgery.surgery_type} ${surgery.createdAt}`}</Text>
             </View>
           ))}
         </List.Accordion>
       )}
       <View style={styles.switchContainer}>
-        <Text>Hospital has Emergency Services</Text>
+        <Text>Patient has Insurance</Text>
         <Switch
-          value={form.has_emergency_services}
+          value={form.insurance}
           onValueChange={(input) =>
             setForm((prevState) =>
               prevState
-                ? { ...prevState, has_emergency_services: input }
-                : { ...initalFormState, has_emergency_services: input }
+                ? { ...prevState, insurance: input }
+                : { ...initalFormState, insurance: input }
             )
           }
         />
@@ -177,8 +180,8 @@ const create = () => {
       <Button mode='contained' onPress={handleSubmit} style={styles.button}>
         Create
       </Button>
-      <Button mode='outlined' onPress={() => router.push(pathToAllHospitals)} style={styles.button}>
-        Back To Hospitals
+      <Button mode='outlined' onPress={() => router.push(pathToAllPatients)} style={styles.button}>
+        Back To Patients
       </Button>
     </View>
   )
@@ -206,7 +209,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     marginTop: 15,
   },
-  roomRow: {
+  surgeryRow: {
     flexDirection: 'row',
     alignItems: 'center',
   },
