@@ -52,7 +52,7 @@ const index = () => {
   }, [token, admin])
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView>
       {admin &&
         <>
           <Title style={styles.title}>Content you Created</Title>
@@ -65,13 +65,11 @@ const index = () => {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    padding: 16,
-  },
   title: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 16,
+    margin: 32,
+    marginLeft: 16,
   },
   noHospitals: {
     fontSize: 14,

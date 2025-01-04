@@ -14,7 +14,7 @@ export const UserContent = ({userResouces}: Props) => {
       {Object.entries(userResouces).map(([resourceType, resourceArray]) => {
         return (
           <View key={resourceType}>
-            <Title>{resourceType}</Title>
+            <Title style={{marginLeft: 16 }}>{resourceType}</Title>
             <CreatedResourceCard resourceType={resourceType} resource={resourceArray} />
           </View>
         )

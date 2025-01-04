@@ -19,9 +19,6 @@ const show = () => {
         const response = await fetchById('surgeries', id, token)
 
         if (response) {
-
-          console.log(response)
-
           setSurgery(response)
         }
       }

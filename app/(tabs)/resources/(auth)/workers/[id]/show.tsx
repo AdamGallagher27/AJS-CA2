@@ -19,9 +19,6 @@ const show = () => {
         const response = await fetchById('workers', id, token)
 
         if (response) {
-
-          console.log(response)
-
           setWorker(response)
         }
       }

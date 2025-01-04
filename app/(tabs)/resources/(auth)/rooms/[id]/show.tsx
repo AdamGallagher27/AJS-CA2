@@ -19,9 +19,6 @@ const show = () => {
         const response = await fetchById('rooms', id, token)
 
         if (response) {
-
-          console.log(response)
-
           setRoom(response)
         }
       }

@@ -46,12 +46,12 @@ export const ShowSingleRoom = ({ room }: Props) => {
           <Title>Room Number: {room_number}</Title>
           <Paragraph>Room Type: {room_type}</Paragraph>
 
-          <View>
-            <Chip>Daily Rate: {daily_rate}</Chip>
+          <View style={styles.margin}>
+            <Chip style={styles.margin}>Daily Rate: {daily_rate}</Chip>
             <Chip>Hospital: {hospital?.title}</Chip>
           </View>
 
-          <View>
+          <View style={styles.margin}>
             <Chip
               style={[
                 availability_status ? styles.available : styles.notAvailable,
@@ -63,21 +63,21 @@ export const ShowSingleRoom = ({ room }: Props) => {
           </View>
 
           {(createdAt && updatedAt) &&
-            <View>
+            <View style={styles.margin}>
               <Paragraph>Created At: {new Date(createdAt).toLocaleString()}</Paragraph>
               <Paragraph>Updated At: {new Date(updatedAt).toLocaleString()}</Paragraph>
             </View>
           }
 
           {admin &&
-            <View>
-              <Button onPress={() => router.push(editPath as never)}>Edit</Button>
-              <Button onPress={() => setShowDeleteModal(true)}>Delete</Button>
+            <View style={styles.buttonContainer}>
+              <Button mode='contained' onPress={() => router.push(editPath as never)}>Edit</Button>
+              <Button mode='outlined' onPress={() => setShowDeleteModal(true)}>Delete</Button>
             </View>
           }
 
           {(surgeries && surgeries?.length > 0) && <List.Section>
-            <List.Subheader>Available Rooms</List.Subheader>
+            <List.Subheader>Available Surgeries</List.Subheader>
             {surgeries.map(({ _id, surgery_type, duration }: Surgery) => (
               <List.Item
                 key={_id}
@@ -102,6 +102,16 @@ export const ShowSingleRoom = ({ room }: Props) => {
 }
 
 const styles = StyleSheet.create({
+  buttonContainer: {
+    flex: 1, 
+    flexDirection: 'column', 
+    justifyContent: 'flex-start', 
+    gap: 6,
+    marginTop: 12 
+  },
+  margin: {
+    marginBottom: 6
+  },
   available: {
     backgroundColor: '#d4edda',
   },

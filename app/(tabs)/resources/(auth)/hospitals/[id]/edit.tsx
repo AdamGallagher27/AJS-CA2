@@ -103,9 +103,7 @@ const edit = () => {
   }
 
   const handleSubmit = () => {
-    validateHospitalForm(form, setErrors)
-
-    if (!errors) {
+    if (validateHospitalForm(form, setErrors)) {
       edit()
     }
   }

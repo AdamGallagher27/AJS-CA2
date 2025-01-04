@@ -20,8 +20,6 @@ const show = () => {
 
         if (response) {
 
-          console.log(response)
-
           setPatient(response)
         }
       }

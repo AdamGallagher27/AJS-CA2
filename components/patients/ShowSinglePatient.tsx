@@ -65,9 +65,9 @@ export const ShowSinglePatient = ({ patient }: Props) => {
           }
 
           {admin &&
-            <View>
-              <Button onPress={() => router.push(editPath as never)}>Edit</Button>
-              <Button onPress={() => setShowDeleteModal(true)}>Delete</Button>
+            <View style={styles.buttonContainer}>
+              <Button mode='contained' onPress={() => router.push(editPath as never)}>Edit</Button>
+              <Button mode='outlined' onPress={() => setShowDeleteModal(true)}>Delete</Button>
             </View>
           }
 
@@ -96,6 +96,13 @@ export const ShowSinglePatient = ({ patient }: Props) => {
 }
 
 const styles = StyleSheet.create({
+  buttonContainer: {
+    flex: 1, 
+    flexDirection: 'column', 
+    justifyContent: 'flex-start', 
+    gap: 6,
+    marginTop: 12 
+  },
   available: {
     backgroundColor: '#d4edda',
   },

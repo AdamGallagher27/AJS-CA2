@@ -29,6 +29,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 16,
+    marginLeft: 16
   },
   noRooms: {
     fontSize: 14,

@@ -38,30 +38,28 @@ export const ShowSingleSurgery = ({ surgery }: Props) => {
     setShowDeleteModal(false)
   }
 
-  console.log(patient)
-
   return (
     <>
       <Card>
         <Card.Content>
           <Title>Surgery Type: {surgery_type}</Title>
           <Paragraph>Duration in Hours: {duration}</Paragraph>
-          <View>
-            {patient && <Chip>Patient Name: {patient.first_name} {patient.last_name}</Chip>}
+          <View style={styles.margin}>
+            {patient && <Chip style={styles.margin}>Patient Name: {patient.first_name} {patient.last_name}</Chip>}
             {room && <Chip>Room: {room.room_type} {room.room_number}</Chip>}
           </View>
 
           {(createdAt && updatedAt) &&
-            <View>
+            <View style={styles.margin}>
               <Paragraph>Created At: {new Date(createdAt).toLocaleString()}</Paragraph>
               <Paragraph>Updated At: {new Date(updatedAt).toLocaleString()}</Paragraph>
             </View>
           }
 
           {admin &&
-            <View>
-              <Button onPress={() => router.push(editPath as never)}>Edit</Button>
-              <Button onPress={() => setShowDeleteModal(true)}>Delete</Button>
+            <View style={styles.buttonContainer}>
+              <Button mode='contained' onPress={() => router.push(editPath as never)}>Edit</Button>
+              <Button mode='outlined' onPress={() => setShowDeleteModal(true)}>Delete</Button>
             </View>
           }
 
@@ -93,10 +91,14 @@ export const ShowSingleSurgery = ({ surgery }: Props) => {
 }
 
 const styles = StyleSheet.create({
-  available: {
-    backgroundColor: '#d4edda',
+  buttonContainer: {
+    flex: 1, 
+    flexDirection: 'column', 
+    justifyContent: 'flex-start', 
+    gap: 6,
+    marginTop: 12 
   },
-  notAvailable: {
-    backgroundColor: '#f8d7da',
+  margin: {
+    marginBottom: 6
   },
 })

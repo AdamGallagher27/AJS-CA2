@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 16,
+    marginLeft: 16
   },
   noPatients: {
     fontSize: 14,

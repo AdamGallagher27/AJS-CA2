@@ -46,12 +46,12 @@ export const ShowSingleHospital = ({ hospital }: Props) => {
           <Title>{title}</Title>
           <Paragraph>Located in {city}</Paragraph>
 
-          <View>
-            <Chip >Daily Rate: ${daily_rate}</Chip>
+          <View style={styles.margin}>
+            <Chip style={styles.margin} >Daily Rate: ${daily_rate}</Chip>
             <Chip >Departments: {number_of_departments}</Chip>
           </View>
 
-          <View>
+          <View style={styles.margin}>
             <Chip
               style={[
                 has_emergency_services ? styles.emergencyChip : styles.noEmergencyChip,
@@ -70,9 +70,9 @@ export const ShowSingleHospital = ({ hospital }: Props) => {
           }
 
           {admin &&
-            <View>
-              <Button onPress={() => router.push(editPath as never)}>Edit</Button>
-              <Button onPress={() => setShowDeleteModal(true)}>Delete</Button>
+            <View style={styles.buttonContainer}>
+              <Button mode='contained' onPress={() => router.push(editPath as never)}>Edit</Button>
+              <Button mode='outlined' onPress={() => setShowDeleteModal(true)}>Delete</Button>
             </View>
           }
 
@@ -102,6 +102,16 @@ export const ShowSingleHospital = ({ hospital }: Props) => {
 }
 
 const styles = StyleSheet.create({
+  buttonContainer: {
+    flex: 1, 
+    flexDirection: 'column', 
+    justifyContent: 'flex-start', 
+    gap: 6,
+    marginTop: 12 
+  },
+  margin: {
+    marginBottom: 6
+  },
   emergencyChip: {
     backgroundColor: '#d4edda',
   },

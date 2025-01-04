@@ -1,5 +1,6 @@
 import { NoResources } from '@/components/generic/NoResources'
 import { SurgeryList } from '@/components/surgeries/SurgeryList'
+import { isAdmin } from '@/hooks/isAdmin'
 import { useToken } from '@/hooks/useToken'
 import {  Surgery } from '@/types/resources'
 import { fetchAll } from '@/utils/api'
@@ -13,6 +14,7 @@ const index = () => {
   const router = useRouter()
   const token = useToken()
   const path = '/resources/surgeries/create'
+  const admin = isAdmin()
 
   useEffect(() => {
     const fetchData = async () => {
@@ -20,8 +22,6 @@ const index = () => {
         const response = await fetchAll('surgeries', token)
 
         if (response) {
-
-          console.log(response)
           setSurgeries(response)
         }
       }
@@ -35,7 +35,7 @@ const index = () => {
 
   return (
     <ScrollView>
-      <Button onPress={e => router.push(path as never)}>Create</Button>
+      {admin && <Button mode='contained' style={ {margin: 16}} onPress={e => router.push(path as never)}>Create</Button>}
       {surgeries ? <SurgeryList surgeries={surgeries} /> : <NoResources resourceName='Surgeries' />}
     </ScrollView>
   )

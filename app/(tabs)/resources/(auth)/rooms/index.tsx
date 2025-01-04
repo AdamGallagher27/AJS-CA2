@@ -1,7 +1,8 @@
 import { NoResources } from '@/components/generic/NoResources'
 import { RoomList } from '@/components/rooms/RoomList'
+import { isAdmin } from '@/hooks/isAdmin'
 import { useToken } from '@/hooks/useToken'
-import {  Room } from '@/types/resources'
+import { Room } from '@/types/resources'
 import { fetchAll } from '@/utils/api'
 import { useRouter } from 'expo-router'
 import { useState, useEffect } from 'react'
@@ -13,6 +14,7 @@ const index = () => {
   const router = useRouter()
   const token = useToken()
   const path = '/resources/rooms/create'
+  const admin = isAdmin()
 
   useEffect(() => {
     const fetchData = async () => {
@@ -20,8 +22,6 @@ const index = () => {
         const response = await fetchAll('rooms', token)
 
         if (response) {
-
-          console.log(response)
           setRooms(response)
         }
       }
@@ -35,7 +35,7 @@ const index = () => {
 
   return (
     <ScrollView>
-      <Button onPress={e => router.push(path as never)}>Create</Button>
+      {admin && <Button mode='contained' style={{ margin: 16 }} onPress={e => router.push(path as never)}>Create</Button>}
       {rooms ? <RoomList rooms={rooms} /> : <NoResources resourceName='rooms' />}
     </ScrollView>
   )

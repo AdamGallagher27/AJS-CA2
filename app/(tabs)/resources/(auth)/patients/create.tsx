@@ -74,7 +74,6 @@ const create = () => {
     }
 
     try {
-      console.log(body)
 
       const response = await axios.post(`${process.env.EXPO_PUBLIC_API_URL}/api/patients`, body, 
       {

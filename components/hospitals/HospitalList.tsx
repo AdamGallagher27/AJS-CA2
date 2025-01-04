@@ -27,7 +27,8 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 16,
+    margin: 16,
+    marginTop: 16,
   },
   noHospitals: {
     fontSize: 14,

@@ -37,7 +37,6 @@ export const Login = () => {
         handleNavigation()
       })
       .catch(e => {
-        console.log(e)
         setError(e.response.data.message)
       })
   }

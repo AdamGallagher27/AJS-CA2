@@ -3,6 +3,7 @@ import { TextInput, Button } from 'react-native-paper'
 import { useState } from 'react'
 import React from 'react'
 import axios from 'axios'
+import { useRouter } from 'expo-router'
 
 export const Register = () => {
   const [form, setForm] = useState({
@@ -11,6 +12,7 @@ export const Register = () => {
     password: ''
   })
   const [error, setError] = useState('')
+  const router = useRouter()
 
   const handlePress = () => {
     // for some reason axios does not fail cors but fetch does???????
@@ -21,13 +23,11 @@ export const Register = () => {
     })
     .then(response => {
 
-      // route to login form then
-      console.log(response)
+      router.push('/resources/hospitals')
     })
     .catch(error => {
-      // write proper error handleing for this
-      console.log(error)
-      
+      console.error(error)
+      setError(error)
     })
   }
 
