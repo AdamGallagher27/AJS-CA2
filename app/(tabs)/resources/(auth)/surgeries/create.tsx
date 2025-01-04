@@ -183,7 +183,7 @@ const create = () => {
           </List.Accordion>
         )}
 
-        {allRooms && <View style={styles.dropDownContainer}>
+        {allRooms && <View>
           <Picker
             selectedValue={selectedRoom}
             onValueChange={(roomId: string) => setSelectedRoom(roomId)}
@@ -195,7 +195,7 @@ const create = () => {
           </Picker>
         </View>}
 
-        {allPatients && <View style={styles.dropDownContainer}>
+        {allPatients && <View>
           <Picker
             selectedValue={selectedPatient}
             onValueChange={(patientId: string) => setSelectedPatient(patientId)}
@@ -220,19 +220,14 @@ const create = () => {
 }
 
 const styles = StyleSheet.create({
-  dropDownContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 16,
-  },
   label: {
     fontSize: 18,
     marginBottom: 8,
   },
   picker: {
     height: 50,
-    width: 200,
+    width: 'auto',
+    marginTop: 16
   },
   selected: {
     marginTop: 16,

@@ -11,8 +11,8 @@ import { Button } from 'react-native-paper'
 const index = () => {
   const [hospitals, setHospitals] = useState<Hospital[]>([])
   const router = useRouter()
-  const path = '/resources/hospitals/create'
-
+  const createPath = '/resources/hospitals/create'
+  const resourcesPath = '/resources'
   const admin = isAdmin()
 
   useEffect(() => {
@@ -34,7 +34,8 @@ const index = () => {
 
   return (
     <ScrollView>
-      {admin && <Button mode='contained' style={ {margin: 16}} onPress={e => router.push(path)}>Create</Button>}
+      {admin && <Button mode='contained' style={ {margin: 16}} onPress={e => router.push(createPath)}>Create</Button>}
+      <Button mode='outlined' style={ {margin: 16}} onPress={() => router.push(resourcesPath as never)}>Back To Resources</Button> 
       {hospitals ? <HospitalList hospitals={hospitals} /> : <NoResources resourceName='hospitals' />}
     </ScrollView>
   )

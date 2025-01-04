@@ -33,6 +33,7 @@ export const ShowSingleSurgery = ({ surgery }: Props) => {
 
   const router = useRouter()
   const editPath = `/resources/surgeries/${_id}/edit`
+  const viewAllPath = '/resources/surgeries'
 
   const onDismiss = () => {
     setShowDeleteModal(false)
@@ -56,12 +57,15 @@ export const ShowSingleSurgery = ({ surgery }: Props) => {
             </View>
           }
 
-          {admin &&
-            <View style={styles.buttonContainer}>
-              <Button mode='contained' onPress={() => router.push(editPath as never)}>Edit</Button>
-              <Button mode='outlined' onPress={() => setShowDeleteModal(true)}>Delete</Button>
-            </View>
-          }
+          <View style={styles.buttonContainer}>
+            {admin &&
+              <>
+                <Button mode='contained' onPress={() => router.push(editPath as never)}>Edit</Button>
+                <Button mode='outlined' onPress={() => setShowDeleteModal(true)}>Delete</Button>
+              </>
+            }
+            <Button mode='outlined' onPress={() => router.push(viewAllPath as never)}>View All</Button>
+          </View>
 
           {workers && workers.length > 0 && (
             <List.Section>
@@ -92,11 +96,11 @@ export const ShowSingleSurgery = ({ surgery }: Props) => {
 
 const styles = StyleSheet.create({
   buttonContainer: {
-    flex: 1, 
-    flexDirection: 'column', 
-    justifyContent: 'flex-start', 
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
     gap: 6,
-    marginTop: 12 
+    marginTop: 12
   },
   margin: {
     marginBottom: 6

@@ -44,10 +44,6 @@ const edit = () => {
   const pathToAllPatients = '/resources/patients'
 
   const handleSelectSurgery = (surgery: Surgery) => {
-
-    console.log('selected : ')
-    console.log(surgery)
-
     // this is from chat gpt because there was a bug where
     // if the room is prechecked it would get added twice
     setSelectedSurgeries((prev) =>
@@ -88,20 +84,15 @@ const edit = () => {
 
 
   const edit = async () => {
-    // I need to omit the _id value which comes from the inital form state variable 
-    // which causes a 422 error on the api
-    // chatgpt
-    const { _id, ...formWithoutId } = form as Patient
-
     const body = await {
-      ...formWithoutId,
+      ...form,
       created_by: userId,
       surgeries: getResourceIdsFromArray(selectedSurgeries),
     }
 
     try {
 
-      const response = await axios.post(`${process.env.EXPO_PUBLIC_API_URL}/api/patients`, body,
+      const response = await axios.put(`${process.env.EXPO_PUBLIC_API_URL}/api/patients/${id}`, body,
         {
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -111,7 +102,8 @@ const edit = () => {
 
       if (response && response.data) {
         const resolved = await response.data
-        const pathToShow = `/resources/patients/${resolved.data._id}/show`
+
+        const pathToShow = `/resources/patients/${resolved._id}/show`
 
         router.push(pathToShow as never)
       }

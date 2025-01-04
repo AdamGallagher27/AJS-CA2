@@ -13,7 +13,8 @@ const index = () => {
   const [surgeries, setSurgeries] = useState<Surgery[]>([])
   const router = useRouter()
   const token = useToken()
-  const path = '/resources/surgeries/create'
+  const createPath = '/resources/surgeries/create'
+  const resourcesPath = '/resources'
   const admin = isAdmin()
 
   useEffect(() => {
@@ -35,7 +36,8 @@ const index = () => {
 
   return (
     <ScrollView>
-      {admin && <Button mode='contained' style={ {margin: 16}} onPress={e => router.push(path as never)}>Create</Button>}
+      {admin && <Button mode='contained' style={ {margin: 16}} onPress={e => router.push(createPath as never)}>Create</Button>}
+      <Button mode='outlined' style={ {margin: 16}} onPress={() => router.push(resourcesPath as never)}>Back To Resources</Button> 
       {surgeries ? <SurgeryList surgeries={surgeries} /> : <NoResources resourceName='Surgeries' />}
     </ScrollView>
   )

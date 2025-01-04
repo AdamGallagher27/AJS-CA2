@@ -32,6 +32,7 @@ export const ShowSingleWorker = ({ worker }: Props) => {
 
   const router = useRouter()
   const editPath = `/resources/workers/${_id}/edit`
+  const viewAllPath = '/resources/workers'
 
   const onDismiss = () => {
     setShowDeleteModal(false)
@@ -51,12 +52,15 @@ export const ShowSingleWorker = ({ worker }: Props) => {
             </View>
           }
 
-          {admin &&
-            <View style={styles.buttonContainer}>
-              <Button mode='contained' onPress={() => router.push(editPath as never)}>Edit</Button>
-              <Button mode='outlined' onPress={() => setShowDeleteModal(true)}>Delete</Button>
-            </View>
-          }
+          <View style={styles.buttonContainer}>
+            {admin &&
+              <>
+                <Button mode='contained' onPress={() => router.push(editPath as never)}>Edit</Button>
+                <Button mode='outlined' onPress={() => setShowDeleteModal(true)}>Delete</Button>
+              </>
+            }
+            <Button mode='outlined' onPress={() =>router.push(viewAllPath as never)}>View All</Button>
+          </View>
 
           {(surgeries && surgeries?.length > 0) && <List.Section>
             <List.Subheader>Scheduled Surgeries</List.Subheader>
@@ -85,11 +89,11 @@ export const ShowSingleWorker = ({ worker }: Props) => {
 
 const styles = StyleSheet.create({
   buttonContainer: {
-    flex: 1, 
-    flexDirection: 'column', 
-    justifyContent: 'flex-start', 
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
     gap: 6,
-    marginTop: 12 
+    marginTop: 12
   },
   margin: {
     marginBottom: 6
