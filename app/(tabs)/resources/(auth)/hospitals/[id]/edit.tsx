@@ -82,7 +82,7 @@ const edit = () => {
 
   const edit = async () => {
 
-    const body = { ...form, created_by: userId, rooms: getResourceIdsFromArray(selectedRooms) }
+    const body = { ...form,  rooms: getResourceIdsFromArray(selectedRooms) }
 
     try {
       const response = await axios.put(`${process.env.EXPO_PUBLIC_API_URL}/api/hospitals/${id}`, body, {

@@ -86,7 +86,7 @@ const create = () => {
     const body = {
       ...formWithoutId,
       hospital: selectedHospital,
-      created_by: userId,
+      
       surgeries: getResourceIdsFromArray(selectedSurgeries),
     }
 

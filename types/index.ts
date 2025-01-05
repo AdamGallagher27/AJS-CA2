@@ -1,4 +1,3 @@
-import { Hospital } from './resources'
 
 export interface UserData {
   message: string
@@ -9,20 +8,11 @@ export interface UserData {
   token: string
 }
 
-interface HospitalId extends Hospital {
-  _id: string
-}
-
 export interface IAuthContext {
   signIn: (UserData: UserData) => void
   signOut: () => void
   session?: string | null
   isLoading: boolean
-}
-
-export interface ApiResponse {
-  data: Hospital
-  message: string
 }
 
 // this type is for returning an object of errors

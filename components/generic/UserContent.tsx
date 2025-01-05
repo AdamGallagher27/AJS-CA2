@@ -12,12 +12,15 @@ export const UserContent = ({userResouces}: Props) => {
   return (
     <View>
       {Object.entries(userResouces).map(([resourceType, resourceArray]) => {
-        return (
-          <View key={resourceType}>
-            <Title style={{marginLeft: 16 }}>{resourceType}</Title>
-            <CreatedResourceCard resourceType={resourceType} resource={resourceArray} />
-          </View>
-        )
+
+        if(resourceArray) {
+          return (
+            <View key={resourceType}>
+              <Title style={{marginLeft: 16 }}>{resourceType}</Title>
+              <CreatedResourceCard resourceType={resourceType} resource={resourceArray} />
+            </View>
+          )
+        }
       })}
     </View>
   )

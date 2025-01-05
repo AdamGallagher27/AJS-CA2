@@ -86,7 +86,7 @@ const edit = () => {
   const edit = async () => {
     const body = await {
       ...form,
-      created_by: userId,
+      
       surgeries: getResourceIdsFromArray(selectedSurgeries),
     }
 

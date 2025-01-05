@@ -110,7 +110,7 @@ const update = () => {
     const body = {
       ...form,
       hospital: selectedHospital,
-      created_by: userId,
+      
       surgeries: getResourceIdsFromArray(selectedSurgeries),
     }
 

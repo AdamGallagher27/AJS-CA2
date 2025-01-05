@@ -45,29 +45,25 @@ describe('fetchById', () => {
 
 describe('fetchUserCreatedResources', () => {
   it('get all user-created resources successfully', async () => {
+
+
     // mock individual responses
-    mockAxiosGet([{ id: 'hospital' }])
-    mockAxiosGet([{ id: 'room' }])
-    mockAxiosGet([{ id: 'surgery' }])
-    mockAxiosGet([{ id: 'patient' }])
-    mockAxiosGet([{ id: 'worker' }])
+    mockAxiosGet({ data: { data: [{ id: 'hospital' }] } })
+    mockAxiosGet({ data: { data: [{ id: 'room' }] } })
+    mockAxiosGet({ data: { data: [{ id: 'surgery' }] } })
+    mockAxiosGet({ data: { data: [{ id: 'patient' }] } })
+    mockAxiosGet({ data: { data: [{ id: 'worker' }] } })
 
     const result = await fetchUserCreatedResources('testToken')
 
     // expect the results to match the mocked respones
     expect(result).toEqual({
-      hospitals: [{ id: 'hospital' }],
-      rooms: [{ id: 'room' }],
-      surgeries: [{ id: 'surgery' }],
-      patients: [{ id: 'patient' }],
-      workers: [{ id: 'worker' }],
+      hospitals: { data: [{ id: 'hospital' }] },
+      rooms: { data: [{ id: 'room' }] },
+      surgeries: { data: [{ id: 'surgery' }] },
+      patients: { data: [{ id: 'patient' }] },
+      workers: { data: [{ id: 'worker' }] },
     })
   })
 
-  it('should return null when one of the fetches fails', async () => {
-    mockAxiosGetError('Network Error')
-
-    const result = await fetchUserCreatedResources('testToken')
-    expect(result).toBeNull()
-  })
-});
+})

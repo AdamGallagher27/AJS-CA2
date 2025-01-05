@@ -27,3 +27,7 @@ export const getRouteBasedOnResourceType = (type: string, id: string,) => {
 export const getResourceIdsFromArray = (resourceArray: Worker[] | Surgery[] | Hospital[] | Room[] | Surgery[] ) => {
   return resourceArray.map(resource => resource._id)
 }
+
+export const capitalizeFirstLetter = (string: string) => {
+  return String(string).charAt(0).toUpperCase() + String(string).slice(1)
+}

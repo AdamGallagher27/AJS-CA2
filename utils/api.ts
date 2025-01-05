@@ -1,5 +1,6 @@
 import { UserResources } from '@/types/resources'
 import axios from 'axios'
+import { capitalizeFirstLetter } from '.'
 
 const { EXPO_PUBLIC_API_URL } = process.env
 
@@ -42,19 +43,41 @@ export const fetchById = async (resource: string, id: string, token?: string) =>
 }
 
 
+// get all resources from the database
+const fetchAllByUser = async (resource: string, token?: string) => {
+
+  try {
+    const response = await axios.get(`${EXPO_PUBLIC_API_URL}/api/${resource}/my${capitalizeFirstLetter(resource)}/read`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+
+    if (response && response.data) {
+
+      console.log(response.data.data)
+
+      return response.data.data
+    }
+
+  } catch (error) {
+    console.error(`Error fetching ${resource}:`, error)
+  }
+}
+
+
 // get all resources that the user created by comparing the users id and the id in each table
 // its rare but everynow and then this times out because it makes alot of requests
 // if I was making a bigger app i refactor this 
 export const fetchUserCreatedResources = async (token: string): Promise<UserResources | null> => {
 
+
   try {
-    const [hospitals, rooms, surgeries, patients, workers] = await Promise.all([
-      fetchAll('hospitals'),
-      fetchAll('rooms', token),
-      fetchAll('surgeries', token),
-      fetchAll('patients', token),
-      fetchAll('workers', token)
-    ])
+    const hospitals = await fetchAllByUser('hospitals', token)
+    const rooms = await fetchAllByUser('rooms', token)
+    const surgeries = await fetchAllByUser('surgeries', token)
+    const patients = await fetchAllByUser('patients', token)
+    const workers = await fetchAllByUser('workers', token)
 
     return {
       hospitals,

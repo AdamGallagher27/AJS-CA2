@@ -23,7 +23,6 @@ const initalFormState = {
 
 const create = () => {
   const token = useToken()
-  const userId = useUserId()
 
   // state variable for the form
   const [form, setForm] = useState<Hospital>(initalFormState)
@@ -66,17 +65,17 @@ const create = () => {
     // chatgpt
     const { _id, ...formWithoutId } = form as Hospital
 
+    const body = {
+      ...formWithoutId,
+      rooms: getResourceIdsFromArray(selectedRooms),
+    }
+
     try {
-      const response = await axios.post(`${process.env.EXPO_PUBLIC_API_URL}/api/hospitals`, {
+      const response = await axios.post(`${process.env.EXPO_PUBLIC_API_URL}/api/hospitals`, body, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-          ...formWithoutId,
-          created_by: userId,
-          rooms: getResourceIdsFromArray(selectedRooms),
-        }),
       })
 
       if (response && response.data) {
@@ -90,6 +89,7 @@ const create = () => {
       console.error(error)
     }
   }
+
 
   const handleSubmit = () => {
     if (validateHospitalForm(form, setErrors)) {

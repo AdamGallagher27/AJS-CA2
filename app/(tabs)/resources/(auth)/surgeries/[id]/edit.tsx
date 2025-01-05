@@ -129,7 +129,7 @@ const update = () => {
 
     const body = {
       ...form,
-      created_by: userId,
+      
       workers: getResourceIdsFromArray(selectedWorkers),
       room: selectedRoom,
       patient: selectedPatient

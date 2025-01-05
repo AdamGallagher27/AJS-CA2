@@ -81,7 +81,7 @@ const create = () => {
 
     const body = await {
       ...form,
-      created_by: userId,
+      
       surgeries: getResourceIdsFromArray(selectedSurgeries),
     }
 

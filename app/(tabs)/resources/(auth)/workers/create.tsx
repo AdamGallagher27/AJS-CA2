@@ -65,7 +65,7 @@ const create = () => {
 
     const body = await {
       ...formWithoutId,
-      created_by: userId,
+      
       surgeries: getResourceIdsFromArray(selectedSurgeries),
     }
 
