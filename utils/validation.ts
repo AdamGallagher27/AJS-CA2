@@ -2,6 +2,8 @@ import { FormErrors } from '@/types'
 import { Hospital, Patient, Room, Surgery, Worker } from '@/types/resources'
 import { Dispatch, SetStateAction } from 'react'
 
+
+// this file has all my validation for each resource types form
 export const validateHospitalForm = (form: Hospital | null, setErrors: React.Dispatch<React.SetStateAction<FormErrors | null | undefined>>) => {
 
   if(!form) return false

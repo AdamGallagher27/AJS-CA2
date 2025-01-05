@@ -1,5 +1,6 @@
 import { Hospital, Room, Surgery, Worker } from '@/types/resources'
 
+// this is for getting the correct property name for the user created resource component
 export const getPropertyNameBasedOnResourceType = (type: string) => {
   switch (type) {
     case 'hospitals':
@@ -15,21 +16,14 @@ export const getPropertyNameBasedOnResourceType = (type: string) => {
   }
 }
 
+// helper function to send the user to the correct show route on usercreated resource component
 export const getRouteBasedOnResourceType = (type: string, id: string,) => {
-  switch (type) {
-    case 'hospitals':
-      return `./resources/${type}/${id}/show`
-    case 'rooms':
-      return `./resources/${type}/${id}/show`
-    case 'surgeries':
-      return `./resources/${type}/${id}/show`
-    case 'patients':
-      return `./resources/${type}/${id}/show`
-    case 'workers':
-      return `./resources/${type}/${id}/show`
-  }
+  return `./resources/${type}/${id}/show`
 }
 
+// this will take an array of resources and return an array of ids 
+// this has to be done in 1:m and m:m relationships
+// becasuse the api expects an array of ids
 export const getResourceIdsFromArray = (resourceArray: Worker[] | Surgery[] | Hospital[] | Room[] | Surgery[] ) => {
   return resourceArray.map(resource => resource._id)
 }

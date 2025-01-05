@@ -53,6 +53,7 @@ const index = () => {
 
   return (
     <ScrollView>
+      {/* if admin show the resources they created themselves */}
       {admin &&
         <>
           <Title style={styles.title}>Content you Created</Title>

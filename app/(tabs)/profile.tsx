@@ -10,6 +10,7 @@ const Tab = () => {
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
+        {/* if a token is present ask the user to login / register else show signout button */}
         {!token ? <AccountCheck /> : <SignOutButton />}
       </SafeAreaView>
     </SafeAreaProvider>

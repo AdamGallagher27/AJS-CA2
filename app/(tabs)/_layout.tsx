@@ -5,8 +5,10 @@ import { Tabs } from 'expo-router'
 
 const TabLayout = () => {
 
+  // get the primary colour from the theme
   const { colors } = useTheme()
 
+  // bottom bar tabs
   return (
     <Tabs screenOptions={{
       tabBarActiveTintColor: colors.primary, tabBarShowLabel: false,

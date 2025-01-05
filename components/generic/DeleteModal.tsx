@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Dialog, PaperProvider, Paragraph, Portal } from 'react-native-paper'
+import { Button, DefaultTheme, Dialog, PaperProvider, Paragraph, Portal } from 'react-native-paper'
 import { StyleSheet } from 'react-native'
 import { deleteResource } from '@/utils/api'
 import { useToken } from '@/hooks/useToken'
@@ -29,7 +29,8 @@ export const DeleteModal = ({ isVisible, onDismiss, resourceName, id }: Props) =
   }
 
   return (
-    <PaperProvider>
+    // for some reason this componet defaults to dark theme so i explicitly pass in the apps theme
+    <PaperProvider theme={{...DefaultTheme}}>
       <Portal>
         <Dialog visible={isVisible} onDismiss={onDismiss} style={styles.container}>
           <Dialog.Title>Confirm Delete</Dialog.Title>
